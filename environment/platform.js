@@ -1,3 +1,4 @@
+//I need a collision check function between barrel and platform so that the barrel would bounce on the stones
 var c = document.getElementById("myCanvas"); //loads the instructions/code from below into the canvas on the screen
 var ctx = c.getContext("2d"); //gains access to drawing the shapes and stuff from below
 
@@ -7,36 +8,34 @@ imgPlat.onload = function(){ //uploads the image onto the screen
 }
 imgPlat.src="environment/plat.png"; //source for where the image is coming from
 
+var plat = {xPos: 0, yPos:80, width: 1000, height: 70};
+
 function drawPlat(){
   //top platform
-  ctx.transform(1, 0.05, -0.05, 1, 50, -60);
   ctx.save(); //saves the present condition/state of the image/game
   ctx.beginPath(); //starts drawing the screen
-  ctx.drawImage(imgPlat, -60, 50, 1150, 90); //gives specifications for drawing it
+  ctx.drawImage(imgPlat, plat.xPos, plat.yPos, plat.width, plat.height); //gives specifications for drawing it
   ctx.fill(); //fills the image/drawing
   ctx.stroke(); //finishes the drawing
   ctx.restore(); //reuses the saved image
   //platform below the top
-  ctx.transform(1, 0.05, -0.05, 1, 230, 120);
   ctx.save(); //saves the present condition/state of the image/game
   ctx.beginPath(); //starts drawing the screen
-  ctx.drawImage(imgPlat, 120, 230, 1150, 90); //gives specifications for drawing it
+  ctx.drawImage(imgPlat, 200, plat.yPos+155, plat.width, plat.height); //gives specifications for drawing it
   ctx.fill(); //fills the image/drawing
   ctx.stroke(); //finishes the drawing
   ctx.restore(); //reuses the saved image
   //plaform above the bottom platform
-  ctx.transform(1, 0.05, -0.05, 1, -60, 340);
   ctx.save(); //saves the present condition/state of the image/game
   ctx.beginPath(); //starts drawing the screen
-  ctx.drawImage(imgPlat, -60, 340, 1150, 90); //gives specifications for drawing it
+  ctx.drawImage(imgPlat, plat.xPos, plat.yPos+305, plat.width, plat.height); //gives specifications for drawing it
   ctx.fill(); //fills the image/drawing
   ctx.stroke(); //finishes the drawing
   ctx.restore(); //reuses the saved image
   //platform on the bottom of the screen
-  ctx.transform(1, 0.05, -0.05, 1, 520, 10);
   ctx.save(); //saves the present condition/state of the image/game
   ctx.beginPath(); //starts drawing the screen
-  ctx.drawImage(imgPlat, 10, 520, 1300, 90); //gives specifications for drawing it
+  ctx.drawImage(imgPlat, plat.xPos, plat.yPos+440, plat.width+200, plat.height); //gives specifications for drawing it
   ctx.fill(); //fills the image/drawing
   ctx.stroke(); //finishes the drawing
   ctx.restore(); //reuses the saved image
