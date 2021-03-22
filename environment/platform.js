@@ -8,7 +8,7 @@ imgPlat.onload = function(){ //uploads the image onto the screen
 }
 imgPlat.src="environment/plat.png"; //source for where the image is coming from
 
-var plat = {xPos: 0, yPos:80, width: 1000, height: 70};
+var plat = {xPos: 0, yPos:80, width: 1000, height: 50};
 
 function drawPlat(){
   //top platform
@@ -35,7 +35,7 @@ function drawPlat(){
   //platform on the bottom of the screen
   ctx.save(); //saves the present condition/state of the image/game
   ctx.beginPath(); //starts drawing the screen
-  ctx.drawImage(imgPlat, plat.xPos, plat.yPos+440, plat.width+200, plat.height); //gives specifications for drawing it
+  ctx.drawImage(imgPlat, plat.xPos, plat.yPos+470, plat.width+200, plat.height); //gives specifications for drawing it
   ctx.fill(); //fills the image/drawing
   ctx.stroke(); //finishes the drawing
   ctx.restore(); //reuses the saved image
