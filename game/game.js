@@ -1,31 +1,20 @@
 var c = document.getElementById("myCanvas"); //loads the instructions/code from below into the canvas on the screen
 var ctx = c.getContext("2d"); //gains access to drawing the shapes and stuff from below
 
+/*draw()
+One 'big' function that pulls functions from every part of the other functions from other js files to make game work
+*/
 function draw() {
   ctx.clearRect(0, 0, c.width, c.height); //clears the screen
-  drawRect();
+  drawRect(); //calls the function that draws the players
   if (((rect.yPos + 1) + rect.width) <= c.height) { //makes sure that the rect doesn't 'sink' into the ground when it's rolling back and forth along the ground
     rect.yPos += grav;
   }
-  drawPlat();
-  drawBar();
-  collideBallPlat();
-  collideHeroPlat();
-  if ((barrel.xPos + barrel.xMove + barrel.rad > c.width) || (barrel.xPos - barrel.rad < 0)) { //If the circle's x position exceeds the width of the canvas...
-    barrel.xMove = -barrel.xMove; //The ball's x direction will be flipped, and it will bounce a specific distance (damping).
-  }
-  if((barrel.yPos + barrel.yMove > c.height - barrel.rad) || (barrel.yPos + barrel.yMove < barrel.rad)) { //If the circle's y position exceeds the height of the canvas...
-    barrel.yMove = -barrel.yMove; //Its y direction will be flipped, and it's speed will decrease.
-  }
-  if ((barrel.xPos - barrel.rad < 0) && (barrel.yPos + barrel.yMove + barrel.rad < c.height - plat.height+10) && (barrel.yPos + barrel.yMove + barrel.rad > plat.yPos + 305 + plat.height)) {
-    barrel.xPos = -1000;
-  }
-  barrel.yMove += gravity; //Adds the gravity value to the ball's dy value, giving it a artificial force of gravity.
-  barrel.xPos += barrel.xMove;
-
-  if (((barrel.yPos + barrel.yMove) + barrel.rad) <= c.height) {
-    barrel.yPos += barrel.yMove;
-  }
+  drawPlat(); //calls the function that draws the platform
+  drawBar(); //calls the function that draws the barrel
+  collideBarPlat(); //calls the function that checks for collision between the barrel and platform
+  collideHeroPlat(); //calls the function that checks for collisions between the hero and the platform
+  collideBar(); //calls the function that checks for the collisions between the barrel and the 'walls/grounds' of the game/canvas/screen
 }
 
-setInterval(draw, 10); //like a loop that repeats the draw function to keep drawing the shapes after 10 milliseconds
+setInterval(draw, 10); //like a loop that repeats the draw function to keep drawing the shapes/images after 10 milliseconds

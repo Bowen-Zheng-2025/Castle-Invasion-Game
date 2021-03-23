@@ -1,3 +1,4 @@
+//still on the fence using the below function for creating multiple barrels in the game
 class Barrel {
   constructor(xPos, yPos, rad, xMove, yMove) {
     this.xPos = xPos;
@@ -8,42 +9,24 @@ class Barrel {
   }
 }
 
-/*
-class Pipes{
-    constructor(pipeSetNum,pipeX,pipeYpoints,pipeGapY, gapWidth,pipeWidth,pipeHeight){
-        this.pipeSetNum = pipeSetNum;//pipe number like a serial code
-        this.pipeGapY = pipeGapY;//middle of the gap and the y value of it
-        this.gapWidth = gapWidth;//middle of the pipe height gap width kind of value of it
-        this.pipeHeight = pipeHeight;//Height of pipe
-        this.pipeWidth = pipeWidth;//Width of pipe
-        this.pipeX = pipeX;//x value of the pipe
-        this.pipeYpoints = this.calculateGap(pipeGapY);//bottom pipe y value
-    }
-    calculateGap(gapY){
-        if ((this.gapWidth % 2) == 0) {//if the gap is a even number
-            var topHalf = (this.gapWidth/2)-1;//then make the gap have a shorter top part taller bottom
-            var bottomHalf = this.gapWidth/2;
-        }else{//else it is odd
-            var topHalf = Math.floor(this.gapWidth/2)+1;//add one to top
-            var bottomHalf = Math.floor(this.gapWidth/2);//gap width div by 2 is the bottom height
-        }
-            var topY = Math.abs(topHalf-this.pipeGapY);//make variable for implimentation perposes
-            var bottomY = (topY+bottomHalf+this.gapWidth);//again
-            var pipeObj = {topPipeY:topY,bottomPipeY:bottomY};//make a object
-            return pipeObj;//return the object
-    }
-}
-//@function makeNewPipes();
-//@param px [integer] {restricted : value > 0,< canvas.width} : tells the function where to start the bottom pipe
-//@param py [integer] {restricted : value > 0, < canvas.height} : tells the function what to use for the y value
-//@param gy [integer] {recomended : value !== 0, !== canvas.height} : tells the function the center of the gap in the middle
-//@param gw [integer] {restricted : value !== 0, !== canvas.height} : tells the function how big the gap is "Note:I relized i put width and just went with it"
-//@param pw [integer] {restricted : value !== canvas.width} : tells the function what to use for the width of the pipe
-//@param ph [integer] {restricted : value !== canvas.height, recommended : value !== 0} : Tells the function the height of the pipes as a base
-function makeNewPipe(px,py,gy,gw,pw,ph) {
-    numberOfTimes++;//indexing the pipes so they all have their own unique number value
-    var newPipe = new Pipes(numberOfTimes,px,py,gy,gw,pw,ph);//Calls the class to make a new pipe
-    pipeArray.push(newPipe);//pushing it to an array
-    return newPipe;//returning it [wasn't needed still exists just in case if actually does matter];
-}
+/*collideBar()
+Checks for the collisions between the barrels and the wall/ground of the game
 */
+function collideBar(){
+  if ((barrel.xPos + barrel.xMove + barrel.rad > c.width) || (barrel.xPos - barrel.rad < 0)) { //If the circle's x position exceeds the width of the canvas...
+    barrel.xMove = -barrel.xMove; //The ball's x direction will be flipped, meaning it will go the opposite direction
+  }
+  if((barrel.yPos + barrel.yMove > c.height - barrel.rad) || (barrel.yPos + barrel.yMove < barrel.rad)) { //If the circle's y position exceeds the height of the canvas...
+    barrel.yMove = -barrel.yMove; //Its y direction will be flipped, meaning it will go the opposite direction
+  }
+  if ((barrel.xPos - barrel.rad < 0) && (barrel.yPos + barrel.yMove + barrel.rad < c.height - plat.height+10) && (barrel.yPos + barrel.yMove + barrel.rad > plat.yPos + 305 + plat.height)) {
+    //this if is very specific and checks to see if the barrel is rolling towards the bottom, left side of the screen
+    barrel.xPos = 20; //resets the barrel's x pos to start from the top left
+    barrel.yPos = 20; //resets the barrel's y pos to start from the top left
+  }
+  barrel.yMove += gravity; //adds gravity to the barrel, making it go downward
+  barrel.xPos += barrel.xMove; //makes the barrel move from left to right
+  if (((barrel.yPos + barrel.yMove) + barrel.rad) <= c.height) { //making sure the barrel doesn't sink into the ground
+    barrel.yPos += barrel.yMove;
+  }
+}
