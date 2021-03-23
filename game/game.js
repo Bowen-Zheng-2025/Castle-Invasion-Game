@@ -12,6 +12,7 @@ function draw() {
   }
   drawPlat(); //calls the function that draws the platform
   drawBar(); //calls the function that draws the barrel
+  drawCan(); //calls the function that draws the cannon that will 'fire' barrels 
   collideBarPlat(); //calls the function that checks for collision between the barrel and platform
   collideHeroPlat(); //calls the function that checks for collisions between the hero and the platform
   collideBar(); //calls the function that checks for the collisions between the barrel and the 'walls/grounds' of the game/canvas/screen
