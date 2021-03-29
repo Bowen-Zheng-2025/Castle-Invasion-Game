@@ -7,42 +7,26 @@ class Ladder {
   }
 }
 
-/*
-class Pipes{
-    constructor(pipeSetNum,pipeX,pipeYpoints,pipeGapY, gapWidth,pipeWidth,pipeHeight){
-        this.pipeSetNum = pipeSetNum;//pipe number like a serial code
-        this.pipeGapY = pipeGapY;//middle of the gap and the y value of it
-        this.gapWidth = gapWidth;//middle of the pipe height gap width kind of value of it
-        this.pipeHeight = pipeHeight;//Height of pipe
-        this.pipeWidth = pipeWidth;//Width of pipe
-        this.pipeX = pipeX;//x value of the pipe
-        this.pipeYpoints = this.calculateGap(pipeGapY);//bottom pipe y value
-    }
-    calculateGap(gapY){
-        if ((this.gapWidth % 2) == 0) {//if the gap is a even number
-            var topHalf = (this.gapWidth/2)-1;//then make the gap have a shorter top part taller bottom
-            var bottomHalf = this.gapWidth/2;
-        }else{//else it is odd
-            var topHalf = Math.floor(this.gapWidth/2)+1;//add one to top
-            var bottomHalf = Math.floor(this.gapWidth/2);//gap width div by 2 is the bottom height
-        }
-            var topY = Math.abs(topHalf-this.pipeGapY);//make variable for implimentation perposes
-            var bottomY = (topY+bottomHalf+this.gapWidth);//again
-            var pipeObj = {topPipeY:topY,bottomPipeY:bottomY};//make a object
-            return pipeObj;//return the object
-    }
+var imgLad = new Image(); //basically creates the image
+imgLad.onload = function(){ //uploads the image onto the screen
+  drawLad(); //uses a function from below
 }
-//@function makeNewPipes();
-//@param px [integer] {restricted : value > 0,< canvas.width} : tells the function where to start the bottom pipe
-//@param py [integer] {restricted : value > 0, < canvas.height} : tells the function what to use for the y value
-//@param gy [integer] {recomended : value !== 0, !== canvas.height} : tells the function the center of the gap in the middle
-//@param gw [integer] {restricted : value !== 0, !== canvas.height} : tells the function how big the gap is "Note:I relized i put width and just went with it"
-//@param pw [integer] {restricted : value !== canvas.width} : tells the function what to use for the width of the pipe
-//@param ph [integer] {restricted : value !== canvas.height, recommended : value !== 0} : Tells the function the height of the pipes as a base
-function makeNewPipe(px,py,gy,gw,pw,ph) {
-    numberOfTimes++;//indexing the pipes so they all have their own unique number value
-    var newPipe = new Pipes(numberOfTimes,px,py,gy,gw,pw,ph);//Calls the class to make a new pipe
-    pipeArray.push(newPipe);//pushing it to an array
-    return newPipe;//returning it [wasn't needed still exists just in case if actually does matter];
+imgLad.src="environment/ladder.png"; //source for where the image is coming from
+
+//this ladder is between the the top of the screen annnd the first platform
+var lad3 = {xPos: 100, yPos: 0, width: 50, height: plat.yPos};
+//this ladder is between the first and second platforms
+var lad1 = {xPos: 700, yPos: plat.yPos, width: 50, height: 160}; //the x variable is the one set random
+//this ladder is between the first and second platforms
+var lad2 = {xPos: 700, yPos: plat.yPos+155, width: 50, height: 150}; //the x variable is the one set random
+//this ladder is between the first and second platforms
+var lad = {xPos: 700, yPos: plat.yPos+305, width: 50, height: 170}; //the x variable is the one set random
+
+function drawLad(){
+  ctx.save(); //saves the present condition/state of the image/game
+  ctx.beginPath(); //starts drawing the screen
+  ctx.drawImage(imgLad, lad.xPos, lad.yPos, lad.width, lad.height); //gives specifications for drawing it
+  ctx.fill(); //fills the image/drawing
+  ctx.stroke(); //finishes the drawing
+  ctx.restore(); //reuses the saved image
 }
-*/
