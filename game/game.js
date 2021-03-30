@@ -13,16 +13,17 @@ function draw() {
   }
   drawPlat(); //calls the function that draws the platform
   drawBar(); //calls the function that draws the barrel
-  drawLad();
+  drawLad(); //calls the function that draws the ladder
   drawCan(); //calls the function that draws the cannon that will 'fire' barrels
-  collideBarPlat();
-  collideBar();
+  collideBarPlat(); //calls the function that checks the collision between barrels and platform
+  collideBar(); //calls the function that checks the collision between the barrels and the walls of the canvas
   collideHeroPlat(); //calls the function that checks for collisions between the hero and the platform
   if (timer == 500) {
-    moreBar(barrel.xPos, barrel.yPos, barrel.rad, barrel.xMove, barrel.yMove)
+    moreBar(barrel.xPos, barrel.yPos, barrel.rad, barrel.xMove, barrel.yMove);
     timer = 0;
   }
   timer ++;
 }
 
+moreLad(1);
 setInterval(draw, 10); //like a loop that repeats the draw function to keep drawing the shapes/images after 10 milliseconds
