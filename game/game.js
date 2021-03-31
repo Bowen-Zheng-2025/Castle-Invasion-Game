@@ -18,6 +18,7 @@ function draw() {
   collideBarPlat(); //calls the function that checks the collision between barrels and platform
   collideBar(); //calls the function that checks the collision between the barrels and the walls of the canvas
   collideHeroPlat(); //calls the function that checks for collisions between the hero and the platform
+  collideHeroBar();
   if (timer == 500) {
     moreBar(barrel.xPos, barrel.yPos, barrel.rad, barrel.xMove, barrel.yMove);
     timer = 0;
