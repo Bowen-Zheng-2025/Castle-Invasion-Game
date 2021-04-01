@@ -18,13 +18,13 @@ function draw() {
   collideBarPlat(); //calls the function that checks the collision between barrels and platform
   collideBar(); //calls the function that checks the collision between the barrels and the walls of the canvas
   collideHeroPlat(); //calls the function that checks for collisions between the hero and the platform
-  collideHeroBar();
-  if (timer == 500) {
-    moreBar(barrel.xPos, barrel.yPos, barrel.rad, barrel.xMove, barrel.yMove);
-    timer = 0;
+  collideHeroBar(); //calls the function that checks for collisions between the hero and the barrel
+  if (timer == 500) { //draws new barrels every second or two
+    moreBar(barrel.xPos, barrel.yPos, barrel.rad, barrel.xMove, barrel.yMove); //calls the moreBar function
+    timer = 0; //resets the timer
   }
-  timer ++;
+  timer ++; //increments the timer
 }
 
-moreLad(1);
+moreLad(1); //calls the function that draw the number of ladders per row
 setInterval(draw, 10); //like a loop that repeats the draw function to keep drawing the shapes/images after 10 milliseconds

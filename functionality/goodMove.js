@@ -13,30 +13,36 @@ function drawRect() {
 }
 
 function collideHeroPlat(){
-  //checks for collision between hero and first/top platform
-  if ((rect.xPos<plat.xPos+plat.width)&&(rect.yPos+rect.width>plat.yPos)&&(rect.yPos+rect.width<plat.yPos+plat.height)) {
-    rect.yPos = plat.yPos - rect.height;
-  }
-  if ((rect.yPos<plat.yPos+plat.height)&&(rect.yPos>plat.yPos)&&(rect.xPos<plat.xPos+plat.width)) { //makes sure that no one can cheat by pressing up all the time
-    rect.yPos = plat.yPos + 155 - rect.height;
-  }
-  //checks for collision between hero and second platform
-  if ((rect.xPos+rect.width>200)&&(rect.yPos+rect.width>plat.yPos+155)&&(rect.yPos+rect.width<plat.yPos+155+plat.height)) {
-    rect.yPos = plat.yPos + 155 - rect.height;
-  }
-  if ((rect.yPos<plat.yPos+155+plat.height)&&(rect.yPos>plat.yPos+155)&&(rect.xPos>200)) { //makes sure that no one can cheat by pressing up all the time
-    rect.yPos = plat.yPos + 305 - rect.height;
-  }
-  //checks for collision between hero and third platform
-  if ((rect.xPos<plat.xPos+plat.width)&&(rect.yPos+rect.width>plat.yPos+305)&&(rect.yPos+rect.width<plat.yPos+305+plat.height)) {
-    rect.yPos = plat.yPos + 305 - rect.height;
-  }
-  if ((rect.yPos<plat.yPos+305+plat.height)&&(rect.yPos>plat.yPos+305)&&(rect.xPos<plat.xPos+plat.width)) { //makes sure that no one can cheat by pressing up all the time
-    rect.yPos = plat.yPos + 470 - rect.height;
-  }
-  //checks for collision between hero and last/bottom platform
-  if ((rect.yPos+rect.width>plat.yPos+470)) {
-    rect.yPos = c.height - plat.height - rect.height;
+  for (var i = 0; i < ladArr.length; i++) {
+    //checks for collision between hero and first/top platform
+    if ((rect.xPos<plat.xPos+plat.width)&&(rect.yPos+rect.width>plat.yPos)&&(rect.yPos+rect.width<plat.yPos+plat.height)) {
+      rect.yPos = plat.yPos - rect.height;
+    }
+    if ((rect.yPos<plat.yPos+plat.height)&&(rect.yPos>plat.yPos)&&(rect.xPos<plat.xPos+plat.width)) { //makes sure that no one can cheat by pressing up all the time
+      rect.yPos = plat.yPos + 155 - rect.height;
+    }
+    //checks for collision between hero and second platform
+    if ((rect.xPos+rect.width>200)&&(rect.yPos+rect.width>plat.yPos+155)&&(rect.yPos+rect.width<plat.yPos+155+plat.height)) {
+      rect.yPos = plat.yPos + 155 - rect.height;
+    }
+    if ((rect.yPos<plat.yPos+155+plat.height)&&(rect.yPos>plat.yPos+155)&&(rect.xPos>200)) { //makes sure that no one can cheat by pressing up all the time
+      rect.yPos = plat.yPos + 305 - rect.height;
+    }
+    //checks for collision between hero and third platform
+    if ((rect.xPos<plat.xPos+plat.width)&&(rect.yPos+rect.width>plat.yPos+305)&&(rect.yPos+rect.width<plat.yPos+305+plat.height)) {
+      rect.yPos = plat.yPos + 305 - rect.height;
+    }
+    if ((rect.yPos<plat.yPos+305+plat.height)&&(rect.yPos>plat.yPos+305)&&(rect.xPos<plat.xPos+plat.width)) { //makes sure that no one can cheat by pressing up all the time
+      if ((ladArr[i].yPos >= plat.yPos+305)&&(rect.xPos>ladArr[i].xPos-20)&&(rect.xPos<ladArr[i].xPos+ladArr[i].width+20)) {
+        rect.yPos = plat.yPos + 305 - rect.height;
+      }else {
+        rect.yPos = plat.yPos + 470 - rect.height;
+      }
+    }
+    //checks for collision between hero and last/bottom platform
+    if ((rect.yPos+rect.height>plat.yPos+470)) {
+      rect.yPos = c.height - plat.height - rect.height;
+    }
   }
 }
 
@@ -46,7 +52,7 @@ function collideHeroBar(){
       //this checks for collision between the barrel and rect only above first platform and only on the left side of the rect and right side of the barrel
       console.log("Collision detected above the first");
     }
-    if ((100<plat.width+plat.xPos)&&(rect.yPos>plat.height+plat.yPos)&&(barArr[i].yPos>plat.height+plat.yPos)&&(rect.yPos<plat.height+plat.yPos+155)&&(barArr[i].yPos<plat.height+plat.yPos+155)&&(rect.xPos+rect.width>barArr[i].xPos-barArr[i].rad)&&(rect.yPos+rect.height>barArr[i].yPos)&&(barArr[i].rad+barArr[i].xPos>rect.xPos)) {
+    if ((rect.yPos>plat.height+plat.yPos)&&(barArr[i].yPos>plat.height+plat.yPos)&&(rect.yPos<plat.height+plat.yPos+155)&&(barArr[i].yPos<plat.height+plat.yPos+155)&&(rect.xPos+rect.width>barArr[i].xPos-barArr[i].rad)&&(rect.yPos+rect.height>barArr[i].yPos)&&(barArr[i].rad+barArr[i].xPos>rect.xPos)) {
       //this checks for collision between the barrel and rect only between the first and second platform and only on the side of the right rect and left side of the barrel
       console.log("Collision detected between first and second");
     }

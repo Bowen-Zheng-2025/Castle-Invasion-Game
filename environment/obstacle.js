@@ -1,4 +1,4 @@
-//still on the fence using the below function for creating multiple barrels in the game
+//contains specification for the drawing my Barrel and will be used later in other function
 class Barrel {
   constructor(xPos, yPos, rad, xMove, yMove) {
     this.xPos = xPos;
@@ -35,15 +35,24 @@ imgBar.onload = function(){ //uploads the image onto the screen
 }
 imgBar.src="environment/bar.png"; //source for where the image is coming from
 
-var barArr = []; //an array that will contain all the info regarding barrels
+var barArr = [{xPos: 60, yPos: 20, rad: 20, xMove: 5, yMove: 5}];
+//an array that will contain all the info regarding barrels
+//@barArr also contains a preset object --> barArr[0];
 var barrel = {xPos: 60, yPos: 20, rad: 20, xMove: 5, yMove: 5};
-var barOne = {xPos: 60, yPos: 20, rad: 20, xMove: 5, yMove: 5};
-barArr.push(barOne);
+//contains the specifications for the drawing the barrels later
 var gravity = 1; //Sets the gravity pulling the barrel towards the ground.
 
+/*moreBar (xPos, yPos, rad, xMove, yMove)
+@param - xPos {integer} - the x position of my barrel
+@param - yPos {integer} - the y position of my barrel
+@param - width {integer} - the size of my barrel in the x direction
+@param - height {integer} - the size of my barrel in the y direction
+@return - barArr {array} - is an array of objects, where objects is the specifications for drawing my barrel
+The purpose of this function is to create more barrels
+*/
 function moreBar (xPos, yPos, rad, xMove, yMove){
-  var newBar = new Barrel(xPos, yPos, rad, xMove, yMove)
-  barArr.push(newBar);
+  var newBar = new Barrel(xPos, yPos, rad, xMove, yMove); //calls on the class for drawing barrels
+  barArr.push(newBar); //pushes new barrel into array to go through in other for loops
   return barArr;
 }
 
@@ -51,7 +60,7 @@ function moreBar (xPos, yPos, rad, xMove, yMove){
 draws the image of the barrel onto the 'circle'
 */
 function drawBar (){
-  for (var i = 0; i < barArr.length; i++) {
+  for (var i = 0; i < barArr.length; i++) { //this goes through my barArr array to look for barrels to draw
     ctx.save(); //saves the present condition/state of the image/game
     ctx.beginPath(); //starts drawing the screen
     ctx.drawImage(imgBar, barArr[i].xPos, barArr[i].yPos-15, barArr[i].rad*2, barArr[i].rad*2); //parameters for drawing the barrel
@@ -65,7 +74,7 @@ function drawBar (){
 Checks for the collisions between the barrels and the wall/ground of the game
 */
 function collideBar(){
-  for (var i = 0; i < barArr.length; i++) {
+  for (var i = 0; i < barArr.length; i++) { //goes through my barArr array to look for barrels to check collisions with  with
     if ((barArr[i].xPos + barArr[i].xMove + barArr[i].rad > c.width) || (barArr[i].xPos - barArr[i].rad < 0)) { //If the circle's x position exceeds the width of the canvas...
       barArr[i].xMove = -barArr[i].xMove; //The ball's x direction will be flipped, meaning it will go the opposite direction
     }
@@ -83,5 +92,4 @@ function collideBar(){
       barArr[i].yPos += barArr[i].yMove;
     }
   }
-
 }
