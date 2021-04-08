@@ -1,17 +1,6 @@
 var c = document.getElementById("myCanvas"); //loads the instructions/code from below into the canvas on the screen
 var ctx = c.getContext("2d"); //gains access to drawing the shapes and stuff from below
 
-var rect = {xPos: 20, yPos: c.height - 150, width: 50, height: 50, xMove: 10, yMove: 50}; //gives specifications for drawing the rectangle
-var grav = 0.5;
-
-function drawRect() {
-  ctx.beginPath();
-  ctx.rect(rect.xPos, rect.yPos, rect.width, rect.height);
-  ctx.fill(); //Fills in the circle with the color provided in fillStyle.
-  ctx.fillStyle = "#0095DD"; //Sets the color of the circle to light blue.
-  ctx.stroke();
-}
-
 function collideHeroPlat(){
   for (var i = 0; i < ladArr.length; i++) {
     //checks for collision between hero and first/top platform
@@ -48,19 +37,19 @@ function collideHeroPlat(){
 
 function collideHeroBar(){
   for (var i = 0; i < barArr.length; i++) {
-    if ((rect.yPos<plat.yPos)&&(barArr[i].yPos<plat.yPos)&&(rect.xPos+rect.width>barArr[i].xPos-barArr[i].rad)&&(rect.yPos+rect.height>barArr[i].yPos)&&(barArr[i].rad+barArr[i].xPos>rect.xPos)) {
+    if ((rect.yPos<plat.yPos)&&(barArr[i].yPos<plat.yPos)&&(barArr[i].xPos+barArr[i].rad>rect.xPos)&&(rect.yPos+rect.height>barArr[i].yPos-barArr[i].rad)&&(barArr[i].xPos-barArr[i].rad<rect.xPos+rect.width)) {
       //this checks for collision between the barrel and rect only above first platform and only on the left side of the rect and right side of the barrel
       console.log("Collision detected above the first");
     }
-    if ((rect.yPos>plat.height+plat.yPos)&&(barArr[i].yPos>plat.height+plat.yPos)&&(rect.yPos<plat.height+plat.yPos+155)&&(barArr[i].yPos<plat.height+plat.yPos+155)&&(rect.xPos+rect.width>barArr[i].xPos-barArr[i].rad)&&(rect.yPos+rect.height>barArr[i].yPos)&&(barArr[i].rad+barArr[i].xPos>rect.xPos)) {
+    if ((rect.yPos>plat.height+plat.yPos)&&(barArr[i].yPos>plat.height+plat.yPos)&&(rect.yPos<plat.height+plat.yPos+155)&&(barArr[i].yPos<plat.height+plat.yPos+155)&&(barArr[i].xPos+barArr[i].rad>rect.xPos)&&(rect.yPos+rect.height>barArr[i].yPos-10)&&(barArr[i].xPos-barArr[i].rad<rect.xPos+rect.width)) {
       //this checks for collision between the barrel and rect only between the first and second platform and only on the side of the right rect and left side of the barrel
       console.log("Collision detected between first and second");
     }
-    if ((rect.yPos<plat.yPos+305)&&(barArr[i].yPos<plat.yPos+305)&&(rect.yPos>plat.height+plat.yPos+155)&&(barArr[i].yPos>plat.height+plat.yPos+155)&&(rect.xPos+rect.width>barArr[i].xPos-barArr[i].rad)&&(rect.yPos+rect.height>barArr[i].yPos)&&(barArr[i].rad+barArr[i].xPos>rect.xPos)) {
+    if ((rect.yPos<plat.yPos+305)&&(barArr[i].yPos<plat.yPos+305)&&(rect.yPos>plat.height+plat.yPos+155)&&(barArr[i].yPos>plat.height+plat.yPos+155)&&(barArr[i].xPos+barArr[i].rad>rect.xPos)&&(rect.yPos+rect.height>barArr[i].yPos-10)&&(rect.yPos+rect.height<barArr[i].yPos+barArr[i].rad)&&(barArr[i].xPos-barArr[i].rad<rect.xPos+rect.width)) {
       //this checks for collision between the barrel and rect only between the second and third platform and only on the left side of the rect and right side of the barrel
       console.log("Collision detected between second and third");
     }
-    if ((rect.yPos>plat.height+plat.yPos+305)&&(barArr[i].yPos>plat.height+plat.yPos+305)&&(rect.xPos+rect.width>barArr[i].xPos-barArr[i].rad)&&(rect.yPos+rect.height>barArr[i].yPos-barArr[i].rad)&&(barArr[i].rad+barArr[i].xPos>rect.xPos)) {
+    if ((rect.yPos>plat.height+plat.yPos+305)&&(barArr[i].yPos>plat.height+plat.yPos+305)&&(barArr[i].xPos+barArr[i].rad>rect.xPos)&&(rect.yPos+rect.height>barArr[i].yPos-10)&&(rect.yPos+rect.height<barArr[i].yPos+barArr[i].rad)&&(barArr[i].xPos-barArr[i].rad<rect.xPos+rect.width)) {
       //this checks for collision between the barrel and rect only between the third and bottom/fourth platform and only on the right side of the rect and left side of the barrel
       console.log("Collision detected between third and fourth");
     }
@@ -69,13 +58,13 @@ function collideHeroBar(){
 
 document.addEventListener("keydown", makeMove); //addEventListenerws users to hit a key on keyboard to interact with the objects
 function makeMove(e) {
-  if ((e.key == "d") && (rect.xPos + rect.width <= c.width)) {
+  if ((e.key == "d") && (rect.xPos + rect.width <= c.width)) { //makes the hero move to the right
     rect.xPos += rect.xMove;
   }
-  if ((e.key == "a") && (rect.xPos >= 0)) {
+  if ((e.key == "a") && (rect.xPos >= 0)) { //makes the hero move to the left
     rect.xPos -= rect.xMove;
   }
-  if (e.key == "w") {
+  if (e.key == "w") { //makes the hero move up (meaning it jumps)
     rect.yPos -= rect.yMove;
   }
 }

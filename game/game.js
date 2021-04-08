@@ -1,6 +1,6 @@
 var c = document.getElementById("myCanvas"); //loads the instructions/code from below into the canvas on the screen
 var ctx = c.getContext("2d"); //gains access to drawing the shapes and stuff from below
-var timer = 0;
+var timer = 0; //is a tracker ... used for tracking the duration for releasing a barrel
 
 /*draw()
 One 'big' function that pulls functions from every part of the other functions from other js files to make game work
@@ -19,6 +19,9 @@ function draw() {
   collideBar(); //calls the function that checks the collision between the barrels and the walls of the canvas
   collideHeroPlat(); //calls the function that checks for collisions between the hero and the platform
   collideHeroBar(); //calls the function that checks for collisions between the hero and the barrel
+  drawBad(); //calls the function that draws the npc
+  collideHeroBad(); //calls the function that checks collisions between the hero and npc
+  enemyMove(); //calls the function that makes the npc moves back and forth automatically on the third platform
   if (timer == 500) { //draws new barrels every second or two
     moreBar(barrel.xPos, barrel.yPos, barrel.rad, barrel.xMove, barrel.yMove); //calls the moreBar function
     timer = 0; //resets the timer
