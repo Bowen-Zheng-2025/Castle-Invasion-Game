@@ -16,6 +16,8 @@ imgLad.src="environment/ladder.png"; //source for where the image is coming from
 
 var ladArr = [{xPos: 100, yPos: 0, width: 50, height: plat.yPos}]; //an array for pushing new ladder objects into
 //@ ladArr[0] - this ladder is between the the top of the screen and the first platform, it will always be there
+var noGrav = false; //boolean tracker that turns on and off gravity
+var noCollision = false; //boolean tracker that turn on and off collisions between the hero and the platforms
 
 /*createLad (xPos, yPos, width, height)
 @param - xPos {integer} - the x position of my ladder
@@ -64,4 +66,35 @@ function drawLad(){
     ctx.stroke(); //finishes the drawing
     ctx.restore(); //reuses the saved image
   }
+}
+
+/*offLad()
+checks to see if rect is off the ladder. If it is, enable gravity and collision checks
+*/
+function offLad(){
+  for (var i = 0; i < ladArr.length; i++) {
+    if ((rect.xPos<ladArr[i].xPos-20)||(rect.xPos+rect.width>ladArr[i].xPos+ladArr[i].width+20)) {
+      if ((ladArr[i].yPos==plat.yPos+305)&&(rect.yPos>plat.yPos+305)) {
+        noGrav = false;
+        noCollision = false;
+        if (rect.yPos + rect.height >= plat.yPos+420+plat.height) {
+          rect.yMove = 50; //allows the hero to jump again instead of being stuck to the ground
+        }
+      }
+      if ((ladArr[i].yPos==plat.yPos+155)&&(plat.yPos+155<rect.yPos)&&(rect.yPos<plat.yPos+305)) {
+        noGrav = false;
+        noCollision = false;
+        if (rect.yPos + rect.height >= plat.yPos+250+plat.height) {
+          rect.yMove = 50; //allows the hero to jump again instead of being stuck to the ground
+        }
+      }
+      if ((ladArr[i].yPos==plat.yPos)&&(plat.yPos<rect.yPos)&&(rect.yPos<plat.yPos+155)) {
+        noGrav = false;
+        noCollision = false;
+        if (rect.yPos + rect.height >= plat.yPos-5+plat.height) {
+          rect.yMove = 50; //allows the hero to jump again instead of being stuck to the ground
+        }
+      }
+    } //this is the end of the big if
+  } //this is the end of the for loop
 }
