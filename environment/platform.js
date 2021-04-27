@@ -6,9 +6,11 @@ imgPlat.onload = function(){ //uploads the image onto the screen
   drawPlat(); //uses a function from below
 }
 imgPlat.src="environment/plat.png"; //source for where the image is coming from
-
 var plat = {xPos: 0, yPos:80, width: 1000, height: 50}; //specification for drawing the platform
 
+/*drawPlat()
+this functions draws all four of the platforms on the screen 
+*/
 function drawPlat(){
   //top platform (first platform)
   ctx.save(); //saves the present condition/state of the image/game

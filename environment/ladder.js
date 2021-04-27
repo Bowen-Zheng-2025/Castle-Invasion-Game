@@ -70,27 +70,38 @@ function drawLad(){
 
 /*offLad()
 checks to see if rect is off the ladder. If it is, enable gravity and collision checks
+Also, this function turns off the climbing animation and the still image of the hero climbing
 */
 function offLad(){
-  for (var i = 0; i < ladArr.length; i++) {
+  for (var i = 0; i < ladArr.length; i++) { //goes through the ladder array
+    //checks if the hero is not in the ladder's vicinity
     if ((rect.xPos<ladArr[i].xPos-20)||(rect.xPos+rect.width>ladArr[i].xPos+ladArr[i].width+20)) {
+      //checks this between the third and fourth platform
       if ((ladArr[i].yPos==plat.yPos+305)&&(rect.yPos>plat.yPos+305)) {
-        noGrav = false;
-        noCollision = false;
+        noGrav = false; //turns on gravity
+        noCollision = false; //turns on collision checker
+        stopClimb = false; //turns off the still picture of hero climbing (for animation effects)
+        //if the hero is touching the ground
         if (rect.yPos + rect.height >= plat.yPos+420+plat.height) {
           rect.yMove = 50; //allows the hero to jump again instead of being stuck to the ground
         }
       }
+      //if the hero and ladder are between the second and third platform. Also checks if hero is off the ladder
       if ((ladArr[i].yPos==plat.yPos+155)&&(plat.yPos+155<rect.yPos)&&(rect.yPos<plat.yPos+305)) {
-        noGrav = false;
-        noCollision = false;
+        noGrav = false; //turns on gravity
+        noCollision = false; //turns on collision
+        stopClimb = false; //turns off the still picture of hero climbing (for animation effects)
+        //if the hero is touching the ground
         if (rect.yPos + rect.height >= plat.yPos+250+plat.height) {
           rect.yMove = 50; //allows the hero to jump again instead of being stuck to the ground
         }
       }
+      //if the hero and ladder are between the first and second platform. Also checks if hero is off the ladder
       if ((ladArr[i].yPos==plat.yPos)&&(plat.yPos<rect.yPos)&&(rect.yPos<plat.yPos+155)) {
-        noGrav = false;
-        noCollision = false;
+        noGrav = false; //turns on gravity
+        noCollision = false; //turns on collision
+        stopClimb = false; //turns off the still picture of hero climbing (for animation effects)
+        //if the hero is touching the ground
         if (rect.yPos + rect.height >= plat.yPos-5+plat.height) {
           rect.yMove = 50; //allows the hero to jump again instead of being stuck to the ground
         }

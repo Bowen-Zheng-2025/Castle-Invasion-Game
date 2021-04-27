@@ -14,7 +14,6 @@ imgCan.onload = function(){ //uploads the image onto the screen
   drawCan(); //uses a function from below
 }
 imgCan.src="environment/cannon.png"; //source for where the image is coming from
-
 var cannon = {xPos: 15, yPos: 30, width: 60, height: 60}; //specifications for drawing a cannon, which will "shoot" out barrels
 
 /*drawCan()
@@ -29,20 +28,29 @@ function drawCan(){
   ctx.restore(); //reuses the saved image
 }
 
+const barFrameWid = 45; //the width of a single frame in the barrel image
+const barFrameHeight = 50; //the height of a single frame in the barrel image
 var barArr = [{xPos: 60, yPos: 50, rad: 20, xMove: 3, yMove: 10}];
 //an array that will contain all the info regarding barrels
 //@barArr also contains a preset object --> barArr[0];
 var barrel = {xPos: 60, yPos: 50, rad: 20, xMove: 3, yMove: 10};
 //contains the specifications for the drawing the barrels later
+var go = true; //boolean key for giving the okay to use the default collision checker between barrel and all the platforms
+var go1 = false; //boolean key for giving the okay to check collision between barrel and all the platforms except for the first one
+var go2 = false; //boolean key for giving the okay to check collision between barrel and all the platforms except for the first second
+var go3 = false; //boolean key for giving the okay to check collision between barrel and all the platforms except for the first third
+var go4 = false; //boolean key for giving the okay to check collision between barrel and all the platforms except for the first fourth
 var gravity = 1; //Sets the gravity pulling the barrel towards the ground.
+var barSprite = new Image(); //sets new image
+barSprite.src = "environment/barRight.png"; //calls the barrel spritesheet
 
-var barSprite = new Image();
-barSprite.src = "environment/barRight.png";
-
+/*animateBar()
+this function animates the barrel(s) in the game
+*/
 function animateBar(){
-  for (var i = 0; i < barArr.length; i++) {
+  for (var i = 0; i < barArr.length; i++) { //goes through the barrel array
     ctx.drawImage(
-      barSprite,
+      barSprite, //calls the barrel spritesheet
       frameIndex * barFrameWid,
       0, //first pixel on the y-axis
       barFrameWid,
@@ -53,8 +61,8 @@ function animateBar(){
       barFrameHeight,
     );
   }
-  if (frameIndex > 3) {
-    frameIndex = 0;
+  if (frameIndex > 3) { //there are only 4 frames in the barrel spritesheet
+    frameIndex = 0; //resets the frame for the animation
   }
 }
 
@@ -105,60 +113,71 @@ function randNum(min, max){
   return Math.floor(Math.random() * (max - min) + min);
 }
 
-var go = true;
-var go1 = false;
-var go2 = false;
-var go3 = false;
-var go4 = false;
 /*barLad1(bar, lad)
 @param - bar {arr} - contains an array of the barrels
 @param - lad {arr} - contains an array of the ladders
+the purpose of this function is to let barrel(s) go down the ladder between the first and second platform
 */
 function barLad1(bar, lad){
-  for (var i = 0; i < bar.length; i++) {
-    for (var j = 0; j < lad.length; j++) {
+  for (var i = 0; i < bar.length; i++) { //goes through the barrel array
+    for (var j = 0; j < lad.length; j++) { //goes through the ladder array
       if ((lad[j].yPos==plat.yPos)&&(bar[i].yPos<plat.yPos+plat.height)) {
+        //checks if the barrel is in the ladder's vicinity ... specifically the ladder between the first and second platform
         if ((bar[i].xPos>lad[j].xPos)&&(bar[i].xPos<lad[j].xPos+lad[j].width)) {
-          go1 = true;
-          go = false;
+          go1 = true; //uses the function that calls collision between barrel and platform, except for the first platform
+          go = false; //turn off the default collision function between barrel and platform
         }
       }
       if ((bar[i].yPos-bar[i].rad>plat.yPos+plat.height)&&(bar[i].yPos+bar[i].rad<plat.yPos+155)) {
-        go1 = false;
-        go = true;
+        go1 = false; //stops using that function
+        go = true; //turns on the default collision function between the barrels and platform
       }
     }
   }
 }
+
+/*barLad2(bar, lad)
+@param - bar {arr} - contains an array of the barrels
+@param - lad {arr} - contains an array of the ladders
+the purpose of this function is to let barrel(s) go down the ladder between the second and third platform
+*/
 function barLad2(bar, lad){
-  for (var i = 0; i < bar.length; i++) {
-    for (var j = 0; j < lad.length; j++) {
+  for (var i = 0; i < bar.length; i++) { //goes through the barrel array
+    for (var j = 0; j < lad.length; j++) { //goes through the ladder array
+      //checks if the barrel is in the ladder's vicinity ... specifically the ladder between the first and second platform
       if ((lad[j].yPos==plat.yPos+155)&&(bar[i].yPos>plat.yPos+plat.height)&&(bar[i].yPos<plat.yPos+155)) {
         if ((bar[i].xPos>lad[j].xPos)&&(bar[i].xPos<lad[j].xPos+lad[j].width)) {
-          go2 = true;
-          go = false;
+          go2 = true; //uses the function that calls collision between barrel and platform, except for the second platform
+          go = false; //turn off the default collision function between barrel and platform
         }
       }
       if ((bar[i].yPos-bar[i].rad>plat.yPos+plat.height+155)&&(bar[i].yPos+bar[i].rad<plat.yPos+305)) {
-        go2 = false;
-        go = true;
+        go2 = false; //stops using that function
+        go = true; //turn on the default collision function between barrel and platform
       }
     }
   }
 }
+
+/*barLad3(bar, lad)
+@param - bar {arr} - contains an array of the barrels
+@param - lad {arr} - contains an array of the ladders
+the purpose of this function is to let barrel(s) go down the ladder between the third and fourth platform
+*/
 function barLad3(bar, lad){
-  for (var i = 0; i < bar.length; i++) {
-    for (var j = 0; j < lad.length; j++) {
+  for (var i = 0; i < bar.length; i++) { //goes the barrel array
+    for (var j = 0; j < lad.length; j++) { //goes through the ladder array
+      //checks if the barrel is in the ladder's vicinity ... specifically the ladder between the first and second platform
       if ((lad[j].yPos==plat.yPos+305)&&(bar[i].yPos>plat.yPos+plat.height+155)&&(bar[i].yPos<plat.yPos+305)) {
         if ((bar[i].xPos>lad[j].xPos)&&(bar[i].xPos<lad[j].xPos+lad[j].width)) {
-          go3 = true;
-          go = false;
+          go3 = true; //uses the function that calls collision between barrel and platform, except for the third platform
+          go = false; //turn off the default collision function between barrel and platform
         }
       }
       if ((bar[i].yPos-bar[i].rad>plat.yPos+plat.height+305)&&(bar[i].yPos+bar[i].rad<plat.yPos+470)) {
         bar[i].yPos = c.height - plat.height - bar[i].rad
-        go3 = false;
-        go = true;
+        go3 = false; //stops using that function
+        go = true; //turn on the default collision function between barrel and platform
       }
     }
   }
