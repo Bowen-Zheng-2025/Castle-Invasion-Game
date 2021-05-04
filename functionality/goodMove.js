@@ -250,7 +250,7 @@ function makeMove(e) {
         stopClimb = true; //turns on the still image of hero
       }
       //this if checks if the hero is within the vicinity of ladder (which is between the first and second platform)
-      if (rect.yPos+rect.height>plat.yPos-5) { //if the rect is below the second platform, follow these steps
+      if (rect.yPos+rect.height>plat.yPos-5) { //if the rect is below the first platform, follow these steps
         if ((rect.yPos+rect.height+5>plat.yPos)&&(rect.yPos<plat.yPos+plat.height)&&(ladArr[i].yPos==plat.yPos)&&(rect.xPos>ladArr[i].xPos-20)&&(rect.xPos+rect.width<ladArr[i].xPos+ladArr[i].width+20)) {
           rect.yPos = plat.yPos+plat.height; //gives illusion that rect is moving down to the next ladder rung
         }
@@ -260,6 +260,7 @@ function makeMove(e) {
         stopClimb = true; //turns on the still image of hero
       }
     } //end of the for loop for the 's' key
+
     rect.yPos += rect.yMove; //makes the hero move down ladder
   } //end of the e.key == 's' if statement
 }
@@ -277,5 +278,9 @@ function pauser(e){
   }
   if (e.key == "s") { //if the player stop pressing the 'a' key, turn off the hero moving left animation
     goClimb = false; //turns off the hero moving left animation
+    if (rect.yPos<plat.yPos) { //fixes a bug so that when s is pressed, hero won't use climbing animation where there is no ladder
+      stopClimb = false; //stops the heroclimb animation
+      goClimb = false //stops heroclimb animation so that default setting is used
+    }
   }
 }
