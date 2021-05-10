@@ -6,6 +6,16 @@ var jump = false; //boolean tracker to check if hero "jumping up" animation shou
 var climb = false; //boolean tracker to check if hero "climbing up" animation should be implemented
 var goClimb = false; //a second boolean tracker in addition to 'climb' to check if hero "climbing up" animation should be implemented
 var stopClimb = false; //boolean tracker to check if hero "climbing up" still picture should be implemented (for animation effects)
+var index = 1; //used in the while loop with values consisting of 1 and 0. This restricts the number of power balls in use
+var noTrack = false; //boolean tracker to see if the trackX should be in use or not.
+//the purpose of noTrack is to make hero movement and power ball movement independent of each other.
+var lHero = false; // boolean tracker for hero blasting his power to the left
+var rHero = true; // boolean tracker for hero blasting his power to the right
+var heroL = true; // boolean tracker for hero facing to the right
+var heroR = true; // boolean tracker for hero facing to the right
+var ind = 0; //this and jumper are meant to track and limit the number of jumps for the hero to two
+var jumper = true; //this and ind are meant to track and limit the number of jumps for the hero to two
+var rightGo = true;// moves the hero onto the platform when final level starts
 
 /*collideHeroPlat()
 checks for collisions between the hero and the platforms
@@ -72,37 +82,49 @@ function collideHeroBar(){
 this function checks to see if the hero should be jumping or not
 */
 function jumpCheck(){
-  //this if is if the hero is in between the third and fourth platform
-  if ((rect.yPos>plat.yPos+plat.height+305)&&(rect.yPos+rect.height<plat.yPos+465)) {
-    jump = true; //let the hero jump
+  if (gameState == 1) {
+    //this if is if the hero is in between the third and fourth platform
+    if ((rect.yPos>plat.yPos+plat.height+305)&&(rect.yPos+rect.height<plat.yPos+465)) {
+      jump = true; //let the hero jump
+    }
+    //this if is if the hero is in between the second and third platform
+    else if ((rect.yPos>plat.yPos+plat.height+155)&&(rect.yPos<plat.yPos+305)&&(rect.yPos+rect.height<plat.yPos+300)) {
+      jump = true; //let the hero jump
+    }
+    //this if is if the hero is in between the first and second platform
+    else if ((rect.yPos>plat.yPos+plat.height)&&(rect.yPos<plat.yPos+155)&&(rect.yPos+rect.height<plat.yPos+150)) {
+      jump = true; //let the hero jump
+    }
+    //this if is if the hero is above the first platform
+    else if ((rect.yPos<plat.yPos)&&(rect.yPos+rect.height<plat.yPos-5)) {
+      jump = true; //let the hero jump
+    }
+    //this else if fixes a bug so that the hero can look like it's jumping when it's goes off the edge of the first platform
+    else if ((rect.xPos>plat.width-10)&&(rect.yPos>0)&&(rect.yPos+rect.height<plat.yPos+150)) {
+      jump = true; //let the hero jump
+    }
+    //this else if fixes a bug so that the hero can look like it's jumping when it's goes off the edge of the second platform
+    else if ((rect.xPos<200)&&(rect.yPos>plat.yPos+plat.height)&&(rect.yPos+rect.height<plat.yPos+300)) {
+      jump = true; //let the hero jump
+    }
+    //this else if fixes a bug so that the hero can look like it's jumping when it's goes off the edge of the third platform
+    else if ((rect.xPos>plat.width-10)&&(rect.yPos>plat.yPos+plat.height+155)&&(rect.yPos+rect.height<plat.yPos+465)) {
+      jump = true; //let the hero jump
+    }
+    //anything thing else that I didn't mention above that doesn't qualify the hero to jump, don't let it jump
+    else {
+      jump = false; //let the hero not jump
+    }
   }
-  //this if is if the hero is in between the second and third platform
-  else if ((rect.yPos>plat.yPos+plat.height+155)&&(rect.yPos<plat.yPos+305)&&(rect.yPos+rect.height<plat.yPos+300)) {
-    jump = true; //let the hero jump
-  }
-  //this if is if the hero is in between the first and second platform
-  else if ((rect.yPos>plat.yPos+plat.height)&&(rect.yPos<plat.yPos+155)&&(rect.yPos+rect.height<plat.yPos+150)) {
-    jump = true; //let the hero jump
-  }
-  //this if is if the hero is above the first platform
-  else if ((rect.yPos<plat.yPos)&&(rect.yPos+rect.height<plat.yPos-5)) {
-    jump = true; //let the hero jump
-  }
-  //this else if fixes a bug so that the hero can look like it's jumping when it's goes off the edge of the first platform
-  else if ((rect.xPos>plat.width-10)&&(rect.yPos>0)&&(rect.yPos+rect.height<plat.yPos+150)) {
-    jump = true; //let the hero jump
-  }
-  //this else if fixes a bug so that the hero can look like it's jumping when it's goes off the edge of the second platform
-  else if ((rect.xPos<200)&&(rect.yPos>plat.yPos+plat.height)&&(rect.yPos+rect.height<plat.yPos+300)) {
-    jump = true; //let the hero jump
-  }
-  //this else if fixes a bug so that the hero can look like it's jumping when it's goes off the edge of the third platform
-  else if ((rect.xPos>plat.width-10)&&(rect.yPos>plat.yPos+plat.height+155)&&(rect.yPos+rect.height<plat.yPos+465)) {
-    jump = true; //let the hero jump
-  }
-  //anything thing else that I didn't mention above that doesn't qualify the hero to jump, don't let it jump
-  else {
-    jump = false; //let the hero not jump
+  if (gameState == 0) {
+    if ((rect.yPos<plat.yPos+300)||(rect.yPos+rect.height>plat.yPos+plat.height+300)) {
+      jump = true; //let the hero jump
+      powOff = true;
+    }
+    else {
+      jump = false;
+      powOff = false;
+    }
   }
 }
 
@@ -168,13 +190,36 @@ function makeMove(e) {
   if ((e.key == "d") && (rect.xPos + rect.width < c.width)) { //lets hero move to the right
     right = true; //enables hero moving right animation
     rect.xPos += rect.xMove;
+    heroR = true; //makes hero face to the right
+    heroL = false; //doesn't make hero face to the left
+    if (powArr.length == 0) { //this is necessary so that the power orb won't change direction in mid-attack
+      rHero = true; //makes the hero look to the right
+      lHero = false; //stops the hero from looking at the left
+    }
+    for (var i = 0; i < powArr.length; i++) {
+      if (powArr[i].xPos>rect.xPos+rect.width) {
+        noTrack = true;
+      }
+    }
+    if (noTrack == false) {
+      trackX = rect.xPos;
+    }
   }
   if ((e.key == "a") && (rect.xPos > 0)) { //lets hero move to the left
     left = true; //enables hero moving left animation
     rect.xPos -= rect.xMove;
+    heroR = false; //doesn't make hero face to the right
+    heroL = true; //makes hero face to the left
+    if (powArr.length == 0) { //this is necessary so that the power orb won't change direction in mid-attack
+      rHero = false; //stops the hero from looking to the right
+      lHero = true; //makes the hero look to the left
+    }
+    if (noTrack == false) {
+      trackX = rect.xPos;
+    }
   }
-  //the problem is that I can only use one of these ifs at a time
-  if (e.key == "w") { //lets the hero move up (basically jump)
+  if ((e.key == "w") && (jumper == true)) { //lets the hero move up (basically jump)
+    ind ++; // try to limit number of jumps for hero to 2
     for (var i = 0; i < ladArr.length; i++){ //goes through the ladder array
       //this if checks if the hero is within the vicinity of ladder (which is between the third and fourth platform)
       if (rect.yPos>plat.yPos+305) {
@@ -227,7 +272,7 @@ function makeMove(e) {
     }
     rect.yPos -= rect.yMove; //allows the hero to jump up
   }
-  if (e.key == "s") { //lets the hero climb down ladders
+  if ((e.key == "s") && (noS == false)) { //lets the hero climb down ladders
     for (var i = 0; i < ladArr.length; i++) { //goes through the ladder array
       //this if checks if the hero is within the vicinity of ladder (which is between the third and fourth platform)
       if (rect.yPos+rect.height>plat.yPos+300) { //if the rect is below the third platform, follow these steps
@@ -263,20 +308,43 @@ function makeMove(e) {
 
     rect.yPos += rect.yMove; //makes the hero move down ladder
   } //end of the e.key == 's' if statement
+  if ((e.key == " ")&&(powOff == false)){
+    for (var i = 0; i < powArr.length; i++) {
+      powArr[i].use = true;
+    }
+    if (powArr.length == 0) { //stops making the power ball move faster when the spacebar is clicked repeatedly
+      index = 0;
+    }
+    noTrack = true;
+  }
 }
 
 document.addEventListener("keyup", pauser); //addEventListenerws users to hit a key on keyboard to interact with the objects
 function pauser(e){
   if (e.key == "d") { //if the player stop pressing the 'd' key, turn off the hero moving right animation
     right = false; //turns off the hero moving right animation
+    heroR = true; //makes hero face to the right
+    heroL = false; //doesn't make hero face to the left
+    rightGo = false;
+    if (powArr.length == 0) { //this is necessary so that the power orb won't change direction in mid-attack
+      rHero = true; //makes the hero look to the right
+      lHero = false; //stops the hero from looking at the left
+    }
   }
   if (e.key == "a") { //if the player stop pressing the 'a' key, turn off the hero moving left animation
     left = false; //turns off the hero moving left animation
+    heroR = false; //doesn't make hero face to the right
+    heroL = true; //makes hero face to the left
+    if (powArr.length == 0) { //this is necessary so that the power orb won't change direction in mid-attack
+      rHero = false; //stops the hero from looking to the right
+      lHero = true; //makes the hero look to the left
+    }
   }
   if (e.key == "w") { //if the player stop pressing the 'a' key, turn off the hero moving left animation
     goClimb = false; //turns off the hero moving left animation
+    gameChanger();
   }
-  if (e.key == "s") { //if the player stop pressing the 'a' key, turn off the hero moving left animation
+  if ((e.key == "s") && (noS == false)) { //if the player stop pressing the 'a' key, turn off the hero moving left animation
     goClimb = false; //turns off the hero moving left animation
     if (rect.yPos<plat.yPos) { //fixes a bug so that when s is pressed, hero won't use climbing animation where there is no ladder
       stopClimb = false; //stops the heroclimb animation

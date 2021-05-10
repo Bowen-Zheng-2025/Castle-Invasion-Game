@@ -9,7 +9,7 @@ imgPlat.src="environment/plat.png"; //source for where the image is coming from
 var plat = {xPos: 0, yPos:80, width: 1000, height: 50}; //specification for drawing the platform
 
 /*drawPlat()
-this functions draws all four of the platforms on the screen 
+this functions draws all four of the platforms on the screen
 */
 function drawPlat(){
   //top platform (first platform)
@@ -40,4 +40,27 @@ function drawPlat(){
   ctx.fill(); //fills the image/drawing
   ctx.stroke(); //finishes the drawing
   ctx.restore(); //reuses the saved image
+}
+
+/*platBoss()
+function that draws a singular platform for the boss level
+*/
+function platBoss(){
+  //platform on the bottom of the screen (fourth platform)
+  ctx.save(); //saves the present condition/state of the image/game
+  ctx.beginPath(); //starts drawing the screen
+  ctx.drawImage(imgPlat, plat.xPos+100, plat.yPos+345, plat.width, plat.height); //gives specifications for drawing it
+  ctx.fill(); //fills the image/drawing
+  ctx.stroke(); //finishes the drawing
+  ctx.restore(); //reuses the saved image
+}
+
+/*platCheck(character)
+@param - character {array of object} - contains all the components for the character
+Checks if the character is on the platform or not
+*/
+function platCheck(character){
+  if ((character.yPos>plat.yPos+300)&&(character.yPos<plat.yPos+plat.height+300)&&(character.xPos+character.width>plat.xPos+100)&&(character.xPos+character.width<plat.xPos+100+plat.width)) {
+    character.yPos = plat.yPos + 300;
+  }
 }

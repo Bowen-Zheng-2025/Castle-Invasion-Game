@@ -109,3 +109,11 @@ function offLad(){
     } //this is the end of the big if
   } //this is the end of the for loop
 }
+
+function gameChanger(){
+  if (rect.yPos < plat.yPos) {
+    if ((ladArr[0].yPos==0)&&(rect.xPos>ladArr[0].xPos-20)&&(rect.xPos+rect.width<ladArr[0].xPos+ladArr[0].width+20)) {
+      gameState = 2;
+    }
+  }
+}

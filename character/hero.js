@@ -28,7 +28,12 @@ This is the default mode.
 function animateHero(){
   if ((right == false) && (left == false) && (jump == false) && (stopClimb == false) && (goClimb == false)) {
     //if everything else is not in use, sets hero blinking as default
-    heroSprite.src = "character/hero.png"; //calls the animation for the hero standing there and blinking
+    if (heroR == true) {
+      heroSprite.src = "character/hero.png"; //calls the animation for the hero standing there and blinking
+    }
+    if (heroL == true) {
+      heroSprite.src = "character/hero1.png"; //calls the animation for the hero standing there and blinking
+    }
     ctx.drawImage(
       heroSprite,
       frameIndex * heroFrameWid,
@@ -76,7 +81,12 @@ this function animates the hero jumping in the game
 */
 function animateHeroJump(){
   if (jump == true) { //if the hero jumping boolean is used
-    heroSprite.src = "character/heroJump.png"; //calls the spritesheet that does the hero jumping animation
+    if (heroR == true) { //make hero face to the right
+      heroSprite.src = "character/heroJump.png"; //calls the spritesheet that does the hero jumping animation
+    }
+    if (heroL == true) { //make hero face to the left
+      heroSprite.src = "character/heroJump1.png"; //calls the spritesheet that does the hero jumping animation
+    }
     ctx.drawImage(
       heroSprite,
       frameIndex,
