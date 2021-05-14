@@ -75,6 +75,18 @@ function draw(){
       drawEnd(); //calls the function that shows the game over screen
       gameState = 2;
     }
+    if (keyInd < 4) { //makes you hunt for 4 keys before you can move onto the boss level by climbing the top ladder
+      keyCheck(upKey, downKey);
+      if (topper == true) {
+        drawKey(upKey);
+      }
+      if (downer == true) {
+        drawKey(downKey);
+      }
+    }
+    if (keyInd >= 4) { // gives you access to the boss level (use top ladder to get to)
+      pass = true;
+    }
     drawScore(); //calls the function that draws the hero's heart and life
     scoreKeeperGood(); //calls the function that keeps track of health, life, and damage of the hero
     drawPlat(); //calls the function that draws the platform
@@ -171,6 +183,7 @@ function draw(){
     for (var i = 0; i < orbArr.length; i++) {
       if (orbArr[i].use == true) {
         orbPow(); //calls the function that draws and handle movement for the boss's power orb
+        console.log("how long");
       }
     }
     if (orbGo1 == true) { //calls the function to make an object that has the orb going to the right

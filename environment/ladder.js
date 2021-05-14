@@ -110,10 +110,15 @@ function offLad(){
   } //this is the end of the for loop
 }
 
+/*gameChanger()
+checks if the hero is climbing the very top ladder. If so, then the game level changes to the boss level
+*/
 function gameChanger(){
-  if (rect.yPos < plat.yPos) {
-    if ((ladArr[0].yPos==0)&&(rect.xPos>ladArr[0].xPos-20)&&(rect.xPos+rect.width<ladArr[0].xPos+ladArr[0].width+20)) {
-      gameState = 2;
+  if (pass == true) {
+    if (rect.yPos < plat.yPos) {
+      if ((ladArr[0].yPos==0)&&(rect.xPos>ladArr[0].xPos-20)&&(rect.xPos+rect.width<ladArr[0].xPos+ladArr[0].width+20)) {
+        gameState = 2;
+      }
     }
   }
 }
