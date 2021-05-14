@@ -61,19 +61,19 @@ function collideHeroBar(){
   for (var i = 0; i < barArr.length; i++) {
     if ((rect.yPos<plat.yPos)&&(barArr[i].yPos<plat.yPos)&&(barArr[i].xPos+barArr[i].rad>rect.xPos)&&(rect.yPos+rect.height>barArr[i].yPos-barArr[i].rad)&&(barArr[i].xPos-barArr[i].rad<rect.xPos+rect.width)) {
       //this checks for collision between the barrel and rect only above first platform and only on the left side of the rect and right side of the barrel
-      console.log("Collision detected above the first");
+      scoring += 0.2;
     }
     if ((rect.yPos>plat.height+plat.yPos)&&(barArr[i].yPos>plat.height+plat.yPos)&&(rect.yPos<plat.height+plat.yPos+155)&&(barArr[i].yPos<plat.height+plat.yPos+155)&&(barArr[i].xPos+barArr[i].rad>rect.xPos)&&(rect.yPos+rect.height>barArr[i].yPos-10)&&(barArr[i].xPos-barArr[i].rad<rect.xPos+rect.width)) {
       //this checks for collision between the barrel and rect only between the first and second platform and only on the side of the right rect and left side of the barrel
-      console.log("Collision detected between first and second");
+      scoring += 0.2;
     }
     if ((rect.yPos<plat.yPos+305)&&(barArr[i].yPos<plat.yPos+305)&&(rect.yPos>plat.height+plat.yPos+155)&&(barArr[i].yPos>plat.height+plat.yPos+155)&&(barArr[i].xPos+barArr[i].rad>rect.xPos)&&(rect.yPos+rect.height>barArr[i].yPos-10)&&(rect.yPos+rect.height<barArr[i].yPos+barArr[i].rad)&&(barArr[i].xPos-barArr[i].rad<rect.xPos+rect.width)) {
       //this checks for collision between the barrel and rect only between the second and third platform and only on the left side of the rect and right side of the barrel
-      console.log("Collision detected between second and third");
+      scoring += 0.2;
     }
     if ((rect.yPos>plat.height+plat.yPos+305)&&(barArr[i].yPos>plat.height+plat.yPos+305)&&(barArr[i].xPos+barArr[i].rad>rect.xPos)&&(rect.yPos+rect.height>barArr[i].yPos-10)&&(rect.yPos+rect.height<barArr[i].yPos+barArr[i].rad)&&(barArr[i].xPos-barArr[i].rad<rect.xPos+rect.width)) {
       //this checks for collision between the barrel and rect only between the third and bottom/fourth platform and only on the right side of the rect and left side of the barrel
-      console.log("Collision detected between third and fourth");
+      scoring += 0.2;
     }
   }
 }
@@ -116,7 +116,7 @@ function jumpCheck(){
       jump = false; //let the hero not jump
     }
   }
-  if (gameState == 0) {
+  if (gameState == 2) {
     if ((rect.yPos<plat.yPos+300)||(rect.yPos+rect.height>plat.yPos+plat.height+300)) {
       jump = true; //let the hero jump
       powOff = true;

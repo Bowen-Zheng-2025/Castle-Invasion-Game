@@ -7,7 +7,6 @@ var spriteSheet = new Image(); //sets an image
 var bossSheet = new Image(); //sets an image
 var heroSprite = new Image(); //sets an image for the hero
 var noS = false; //turns off the 'S' key, use this for the final boss level
-var gameState = 0; //0 = use start screen, 1 = use regular, game mode screen, 2 = use boss battle screen, 3 = use game over screen
 var imgStart = new Image(); //basically creates the image
 imgStart.onload = function(){ //uploads the image onto the screen
   drawStart(); //uses a function from below
@@ -24,7 +23,7 @@ var imgEnd = new Image(); //basically creates the image
 imgEnd.onload = function(){ //uploads the image onto the screen
   drawEnd(); //uses a function from below
 }
-imgWin.src="game/gameOver.png"; //source for where the image is coming from
+imgEnd.src="game/gameOver.png"; //source for where the image is coming from
 
 // drawStart() - draws the start screen of the game
 function drawStart() {
@@ -62,9 +61,9 @@ it combines everything and is the 'brain' of the operation
 this is basically the control center
 */
 function draw(){
-  // if (gameState == 0) { //checks what the game state should be
-  //   drawStart(); //calls the start screen function to draw it to start
-  // }
+  if (gameState == 0) { //checks what the game state should be
+    drawStart(); //calls the start screen function to draw it to start
+  }
   if (gameState == 1) {
     ctx.clearRect(0,0,c.width,c.height); //resets the canvas and redraws everything
     if (noGrav == false) { //checks if gravity should be used or not
@@ -72,6 +71,12 @@ function draw(){
         rect.yPos += grav; //calls gravity
       }
     }
+    if (end == true) { //if the hero dies from the score tracker, use game over screen
+      drawEnd(); //calls the function that shows the game over screen
+      gameState = 2;
+    }
+    drawScore(); //calls the function that draws the hero's heart and life
+    scoreKeeperGood(); //calls the function that keeps track of health, life, and damage of the hero
     drawPlat(); //calls the function that draws the platform
     drawLad(); //calls the function that draws the ladder
     drawCan(); //calls the function that draws the cannon that will 'fire' barrels
@@ -132,7 +137,7 @@ function draw(){
       count = 0; //resets the counter
     }
   }
-  if (gameState == 0) { // Make sure to change the gameState in jumpCheck function!!!!!!!!!!!!!!
+  if (gameState == 2) { // Changes the level to final boss level
     ctx.clearRect(0,0,c.width,c.height); //resets the canvas and redraws everything
     if ((rect.xPos < 200) && (rightGo == true)) { //puts the hero on top of the platform (move to the right)
       rect.xPos = 120;
@@ -144,7 +149,7 @@ function draw(){
       rect.yPos += grav; //calls gravity
     }
     noS = true; //turns off the s key so users can go "down"
-    if (index == 0) {
+    if (index == 0) { //only lets hero use one power orb at a time when attacking
       while (index < 1) {
         morePower(power.yPos, power.width, power.height, power.xMove, power.use); //calls the function that makes another powerball
         index ++;
@@ -174,7 +179,7 @@ function draw(){
     if (orbGo2 == true) { //calls the function to make an object that has the orb going to the left
       moreOrb(orb2.xPos, orb2.yPos, orb2.width, orb2.height, orb2.xMove, orb2.use);
     }
-    heroOrbCheck();
+    heroOrbCheck(); //calls the function that checks the collisions between the hero and the bad guy's orb
     bossMove(); //calls the function that makes the boss move left and right
     platCheck(rect); //calls the function that keeps the hero on the platform
     platBoss(); //calls the function that draws the platform for the boss level
@@ -185,17 +190,18 @@ function draw(){
     animateHeroRight(); //calls the function that animates the hero moving to the right
     animateHeroJump(); //calls the function that animates the hero jumping
     animateBossRun(); //calls the function that draws the boss running
-    drawScore();
-    drawBadScore();
-    scoreKeeperGood();
-    scoreKeeperBad();
-    if (ind <= 1) { //limit the number of jumps the hero can take to 2
+    drawScore(); //calls the function that draws the hero's heart and life
+    drawBadScore(); //calls the function that draws the boss's heart and life
+    scoreKeeperGood(); //keeps track of the score and life and damage done to hero
+    scoreKeeperBad(); //keeps track of the score and life and damage done to the boss
+    //the next 3 ifs limit the number of jumps the hero can take to 2
+    if (ind <= 1) { //lets hero jump
       jumper = true;
     }
-    if (ind > 1) {
+    if (ind > 1) { //stops hero from jumping
       jumper = false;
     }
-    if (rect.yPos == plat.yPos + 300) {
+    if (rect.yPos == plat.yPos + 300) { //if the hero is touching/back on the platform/ground, let it jump again
       jumper = true;
       ind = 0;
     }
@@ -204,13 +210,15 @@ function draw(){
       frameIndex ++; //increases it over time
       count = 0; //resets the counter
     }
-    if (end == true) {
-      drawEnd();
+    if (end == true) { //if the hero dies from the score tracker, use game over screen
+      drawEnd(); //calls the function that shows the game over screen
     }
-    // if (winner == true) {
-    //   drawWin();
-    // }
-
+    if (winner == true) { //if hero kills boss from boss score tracker, use winner screen
+      drawWin();
+    }
+    if (rect.yPos > plat.yPos + 360 + plat.height) { //if hero falls off the platform and is about to touch the bottom, game over screen is initiated
+      end = true; // calls the function that shows the screen when the hero wins/defeats boss
+    }
   }
   requestAnimationFrame(draw); //basically replaces the job of setInterval
 }
@@ -224,8 +232,8 @@ function work(e) { //this function makes the ball bounce (or change direction in
     window.location.reload(); //this reloads the page
   }
 }
-// c.addEventListener('click', function(event) { //this makes it possible for users to play the game
-//   if (gameState == 0) { //checks the game state
-//     gameState = 1; //this sets the screen of the canvas to the one that lets users play the game
-//   }
-// })
+c.addEventListener('click', function(event) { //this makes it possible for users to play the game
+  if (gameState == 0) { //checks the game state
+    gameState = 1; //this sets the screen of the canvas to the one that lets users play the game
+  }
+})

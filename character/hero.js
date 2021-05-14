@@ -1,5 +1,6 @@
 var rect = {xPos: 20, yPos: c.height - 150, width: 50, height: 50, xMove: 10, yMove: 50}; //gives specifications for drawing the rectangle
-var grav = 0.5; //the gravity that pulls the hero down to the ground
+var gameState = 0; //0 = use start screen, 1 = use regular, game mode screen, 2 = use boss battle screen, 3 = use game over screen
+var grav = 0.8; //the gravity that pulls the hero down to the ground
 const heroFrameWid = 51.5; //the width of a single frame for the hero spritesheet
 const heroFrameHeight = 60; //the height of a single frame for the hero spritesheet
 let frameIndexHero = 0; //counter for the frames for animation
@@ -9,10 +10,18 @@ imgStill.onload = function(){ //uploads the image onto the screen
 }
 imgStill.src="character/climbStop.png"; //source for where the image is coming from
 
+
 /*heroStill()
 draws a cannon for visual effects and for fun
 */
 function heroStill(){
+  if (gameState == 1) { //change gravity so hero falls slower in level 1
+    grav = 0.5 //the gravity that pulls the hero down to the ground
+  }
+
+  if (gameState == 2) { //change gravity so hero falls quicker in level 2
+    grav = 1; //the gravity that pulls the hero down to the ground
+  }
   ctx.save(); //saves the present condition/state of the image/game
   ctx.beginPath(); //starts drawing the screen
   ctx.drawImage(imgStill, rect.xPos+3, rect.yPos-17, rect.width*.8, rect.height*1.5); //gives specifications for drawing it
@@ -153,6 +162,6 @@ is a collision checker between the hero/rect and the npc
 function collideHeroBad(){
   //this if checks for collision between the left, right, and bottom side of the hero compared to the npc
   if ((npc.xPos+npc.width>rect.xPos)&&(npc.xPos+npc.width<rect.xPos+rect.width)&&(rect.yPos+rect.height>npc.yPos)&&(rect.yPos<plat.yPos+305)) {
-    console.log("Collision between hero and enemy detected"); //logs this out so that we know a collision happened
+    scoring += 0.4;
   }
 }

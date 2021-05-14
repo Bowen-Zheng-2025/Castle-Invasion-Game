@@ -1,24 +1,25 @@
 var scoring = 0; //keeps track of the damages done to the hero
 var scoreBad = 0; //keeps track of the damages done to the bad guy
 var end = false; //boolean tracker to see if hero died yet. If so, the game ends
+var winner = false; // boolean tracker to see if the hero defeated the hero. If so, the hero win screen appears
 var imgScore = new Image(); //basically creates the image
 imgScore.onload = function(){ //uploads the image onto the screen
   drawScore(); //uses a function from below
 }
 function scoreKeeperGood(){
-  if ((scoring <= 5) && (end == false)) {
+  if ((scoring <= 5) && (end == false) && (winner == false)) {
     imgScore.src="functionality/heroLife.png"; //source for where the image is coming fro
   }
-  if ((scoring <= 10) && (scoring > 5) && (end == false)) {
+  if ((scoring <= 10) && (scoring > 5) && (end == false) && (winner == false)) {
     imgScore.src="functionality/heroLife1.png"; //source for where the image is coming fro
   }
-  if ((scoring <= 15) && (scoring > 10) && (end == false)) {
+  if ((scoring <= 15) && (scoring > 10) && (end == false) && (winner == false)) {
     imgScore.src="functionality/heroLife2.png"; //source for where the image is coming fro
   }
-  if ((scoring <= 20) && (scoring > 15) && (end == false)) {
+  if ((scoring <= 20) && (scoring > 15) && (end == false) && (winner == false)) {
     imgScore.src="functionality/heroLife3.png"; //source for where the image is coming fro
   }
-  if ((scoring <= 25) && (scoring > 20) && (end == false)) {
+  if ((scoring <= 25) && (scoring > 20) && (end == false) && (winner == false)) {
     imgScore.src="functionality/heroLife4.png"; //source for where the image is coming fro
   }
   if (scoring > 25) {
@@ -27,20 +28,23 @@ function scoreKeeperGood(){
 }
 
 function scoreKeeperBad(){
-  if ((scoreBad <= 5) && (end == false)) {
+  if ((scoreBad <= 5) && (end == false) && (winner == false)) {
     imgBadScore.src="functionality/bossLife.png"; //source for where the image is coming from
   }
-  if ((scoreBad <= 10) && (scoreBad > 5) && (end == false)) {
+  if ((scoreBad <= 10) && (scoreBad > 5) && (end == false) && (winner == false)) {
     imgBadScore.src="functionality/bossLife1.png"; //source for where the image is coming from
   }
-  if ((scoreBad <= 30) && (scoreBad > 10) && (end == false)) {
+  if ((scoreBad <= 15) && (scoreBad > 10) && (end == false) && (winner == false)) {
     imgBadScore.src="functionality/bossLife2.png"; //source for where the image is coming from
   }
-  if ((scoreBad <= 40) && (scoreBad > 15) && (end == false)) {
+  if ((scoreBad <= 20) && (scoreBad > 15) && (end == false) && (winner == false)) {
     imgBadScore.src="functionality/bossLife3.png"; //source for where the image is coming from
   }
-  if ((scoreBad <= 50) && (scoreBad > 20) && (end == false)) {
+  if ((scoreBad <= 25) && (scoreBad > 20) && (end == false) && (winner == false)) {
     imgBadScore.src="functionality/bossLife4.png"; //source for where the image is coming from
+  }
+  if (scoreBad > 25) {
+    winner = true; //then the player wins and the winner page shows up
   }
 }
 

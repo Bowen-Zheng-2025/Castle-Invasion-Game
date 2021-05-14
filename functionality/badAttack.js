@@ -65,9 +65,6 @@ function orbPow(){
     if (orbArr[i].xPos < 0) {
       orbArr[i].use = false;
     }
-    // if ((orbArr[0].xPos > c.width)) {
-    //   garbage.push(orbArr);
-    // }
     ctx.save(); //saves the present condition/state of the image/game
     ctx.beginPath(); //starts drawing the screen
     ctx.drawImage(imgOrb, orbArr[i].xPos, orbArr[i].yPos, orbArr[i].width, orbArr[i].height); //gives specifications for drawing it
@@ -85,6 +82,7 @@ function heroOrbCheck(){
   for (var i = 0; i < orbArr.length; i++) {
     if ((orbArr[i].xPos<rect.xPos+20)&&(rect.xPos<orbArr[i].xPos)&&(orbArr[i].yPos<rect.yPos+rect.width)&&(rect.yPos<orbArr[i].yPos)) {
       orbArr[i].use = false;
+      console.log(orbArr[i].use); // this is necessary to fix a stupid weird bug so that orbs don't pass through hero
       scoring ++; //adds to the score (about 5-10 points? depends if you are walking or running when attacked)
     }
   }
