@@ -8,6 +8,7 @@ var bossSheet = new Image(); //sets an image
 var heroSprite = new Image(); //sets an image for the hero
 var noS = false; //turns off the 'S' key, use this for the final boss level
 var imgStart = new Image(); //basically creates the image
+var gamer = 0; //helps the gameState tracker, but also meant for the x key to help player resume their game
 imgStart.onload = function(){ //uploads the image onto the screen
   drawStart(); //uses a function from below
 }
@@ -25,11 +26,27 @@ imgEnd.onload = function(){ //uploads the image onto the screen
 }
 imgEnd.src="game/gameOver.png"; //source for where the image is coming from
 
+var imgHelp = new Image(); //basically creates the image
+imgHelp.onload = function(){ //uploads the image onto the screen
+  drawHelp(); //uses a function from below
+}
+imgHelp.src="game/instruction.png"; //source for where the image is coming from
+
+// drawHelp() - draws the help screen of the game to give instructions and show controls of the game
+function drawHelp() {
+ ctx.save(); //saves the present condition/state of the image/game
+ ctx.beginPath(); //starts the drawing
+ ctx.drawImage(imgHelp, -15, -240, 1225, 1320); //parameters for drawing the bird
+ ctx.fill(); //fills the image/drawing
+ ctx.stroke(); //finishes the drawing
+ ctx.restore(); //reuses the saved image
+}
+
 // drawStart() - draws the start screen of the game
 function drawStart() {
  ctx.save(); //saves the present condition/state of the image/game
  ctx.beginPath(); //starts the drawing
- ctx.drawImage(imgStart, 0, 0, c.width, c.height); //parameters for drawing the bird
+ ctx.drawImage(imgStart, -10, -300, 1300, 1400); //parameters for drawing the bird
  ctx.fill(); //fills the image/drawing
  ctx.stroke(); //finishes the drawing
  ctx.restore(); //reuses the saved image
@@ -39,7 +56,7 @@ function drawStart() {
 function drawWin() {
  ctx.save(); //saves the present condition/state of the image/game
  ctx.beginPath(); //starts the drawing
- ctx.drawImage(imgWin, -10, -300, 1300, 1350); //parameters for drawing the bird
+ ctx.drawImage(imgWin, -10, -300, 1300, 1400); //parameters for drawing the bird
  ctx.fill(); //fills the image/drawing
  ctx.stroke(); //finishes the drawing
  ctx.restore(); //reuses the saved image
@@ -63,9 +80,11 @@ this is basically the control center
 function draw(){
   if (gameState == 0) { //checks what the game state should be
     drawStart(); //calls the start screen function to draw it to start
+    gamer = 0; //keeps track of the gameState; use later for x and smooth return to where you left off
   }
   if (gameState == 1) {
     ctx.clearRect(0,0,c.width,c.height); //resets the canvas and redraws everything
+    gamer = 1; //keeps track of the gameState; use later for x and smooth return to where you left off
     if (noGrav == false) { //checks if gravity should be used or not
       if (((rect.yPos + 1) + rect.width) <= c.height) { //makes sure that the rect doesn't 'sink' into the ground when it's rolling back and forth along the ground
         rect.yPos += grav; //calls gravity
@@ -151,6 +170,7 @@ function draw(){
   }
   if (gameState == 2) { // Changes the level to final boss level
     ctx.clearRect(0,0,c.width,c.height); //resets the canvas and redraws everything
+    gamer = 2; //keeps track of the gameState; use later for x and smooth return to where you left off
     if ((rect.xPos < 200) && (rightGo == true)) { //puts the hero on top of the platform (move to the right)
       rect.xPos = 120;
     }
@@ -233,6 +253,9 @@ function draw(){
       end = true; // calls the function that shows the screen when the hero wins/defeats boss
     }
   }
+  if (gameState == 3) {
+    drawHelp();
+  }
   requestAnimationFrame(draw); //basically replaces the job of setInterval
 }
 
@@ -243,6 +266,30 @@ document.addEventListener("keydown", work); //addEventListenerws users to hit a 
 function work(e) { //this function makes the ball bounce (or change direction in the x direction) when a key is pressed
   if (e.key == "r") { //if you press the 'x' key, you will reload the page, thus restarting the game
     window.location.reload(); //this reloads the page
+  }
+  if (gamer == 0) { //if you clicked help while at start screen, you will return to it if you press x
+    if (e.key == "h") {
+      gameState = 3;
+    }
+    if (e.key == "x") {
+      gameState = 0;
+    }
+  }
+  if (gamer == 1) { //if you clicked help while playing game (level 1), you will return to it if you press x
+    if (e.key == "h") {
+      gameState = 3;
+    }
+    if (e.key == "x") {
+      gameState = 1;
+    }
+  }
+  if (gamer == 2) { //if you clicked help while at boss level, you will return to it if you press x
+    if (e.key == "h") {
+      gameState = 3;
+    }
+    if (e.key == "x") {
+      gameState = 2;
+    }
   }
 }
 c.addEventListener('click', function(event) { //this makes it possible for users to play the game
