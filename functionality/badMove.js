@@ -1,5 +1,5 @@
 var boss = {xPos: 1000, yPos:379, width:54, height:54, xMove:2}; //specification for drawing the boss and movement
-var trackB = boss.xPos;
+var trackB = boss.xPos; //keeps track of the boss's movement so the orb shoots out at the boss's x position
 
 /*animateBoss
 does the animation for the boss running

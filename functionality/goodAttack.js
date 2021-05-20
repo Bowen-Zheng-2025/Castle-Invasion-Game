@@ -71,7 +71,7 @@ function attack(){
     }
     if ((trackX < boss.xPos + boss.width) && (trackX > boss.xPos)) {
       garbage.push(powArr.shift());
-      scoreBad++;
+      scoreBad++; //add to score for the bad so boss loses lives
     }
   }
 }

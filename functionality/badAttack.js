@@ -15,11 +15,11 @@ var orb1 = {xPos: 110, yPos: 390, width: 25, height: 25, xMove: 3, use: true}; /
 var orb2 = {xPos: 1000, yPos: 390, width: 25, height: 25, xMove: -3, use: true}; //this is for an orb moving to the left
 var orbArr = [{xPos: -1000, yPos: 390, width: 0, height: 0, xMove: -3, use: true}];
 //contains the specifications for the drawing the power later
-var orbGo1 = false;
-var orbGo2 = false;
-var trash = false;
+var orbGo1 = false; //will become true when boss is moving right and is going to shoot an orb to the right
+var orbGo2 = false; //will become true when boss is moving left and is going to shoot an orb to the lefft
+var trash = false; //trash to see if orbs should go in garbage or not
 var val = 0; //"boolean" tracker to see which direction the object should be moving
-var trigger = false;
+var trigger = false; //boolean tracker on and off when to use orb
 var imgOrb = new Image(); //basically creates the image
 imgOrb.onload = function(){ //uploads the image onto the screen
   orbPow(); //uses a function from below

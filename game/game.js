@@ -97,10 +97,10 @@ function draw(){
     if (keyInd < 4) { //makes you hunt for 4 keys before you can move onto the boss level by climbing the top ladder
       keyCheck(upKey, downKey);
       if (topper == true) {
-        drawKey(upKey);
+        drawKey(upKey); //calls the function that draws the key on top platform
       }
       if (downer == true) {
-        drawKey(downKey);
+        drawKey(downKey); //calls the function that draws the key on the bottom platform
       }
     }
     if (keyInd >= 4) { // gives you access to the boss level (use top ladder to get to)
@@ -247,14 +247,14 @@ function draw(){
       drawEnd(); //calls the function that shows the game over screen
     }
     if (winner == true) { //if hero kills boss from boss score tracker, use winner screen
-      drawWin();
+      drawWin(); //calls the function that shows the hero win screen
     }
     if (rect.yPos > plat.yPos + 360 + plat.height) { //if hero falls off the platform and is about to touch the bottom, game over screen is initiated
       end = true; // calls the function that shows the screen when the hero wins/defeats boss
     }
   }
   if (gameState == 3) {
-    drawHelp();
+    drawHelp(); //calls the function that draws the manual for the playing the game and the background
   }
   requestAnimationFrame(draw); //basically replaces the job of setInterval
 }

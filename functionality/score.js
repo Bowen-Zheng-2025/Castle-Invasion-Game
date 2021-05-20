@@ -6,6 +6,11 @@ var imgScore = new Image(); //basically creates the image
 imgScore.onload = function(){ //uploads the image onto the screen
   drawScore(); //uses a function from below
 }
+
+/*scoreKeeperGood()
+keeps track of the 'score'/lives/health of the hero. If he is damaged, he loses lives
+if all lives are lost, he dies and the game is over
+*/
 function scoreKeeperGood(){
   if ((scoring <= 5) && (end == false) && (winner == false)) {
     imgScore.src="functionality/heroLife.png"; //source for where the image is coming fro
@@ -27,6 +32,10 @@ function scoreKeeperGood(){
   }
 }
 
+/*scoreKeeperBad()
+keeps track of the boss's life
+if all his health is gone, he dies and the hero wins (show hero win screen)
+*/
 function scoreKeeperBad(){
   if ((scoreBad <= 5) && (end == false) && (winner == false)) {
     imgBadScore.src="functionality/bossLife.png"; //source for where the image is coming from
@@ -51,7 +60,7 @@ function scoreKeeperBad(){
 var score = {xPos: 850, yPos: -40, width: 200, height: 150}; //specifications for drawing a score chart, which will "shoot" out barrels
 
 /*drawScore()
-draws a score chart for visual effects and for fun
+draws a score chart for visual effects and for fun and for hero
 */
 function drawScore(){
   ctx.save(); //saves the present condition/state of the image/game
@@ -69,7 +78,7 @@ imgBadScore.onload = function(){ //uploads the image onto the screen
 var badScore = {xPos: 850, yPos: 20, width: 200, height: 150}; //specifications for drawing a score chart, which will "shoot" out barrels
 
 /*drawScore()
-draws a score chart for visual effects and for fun
+draws a score chart for visual effects and for fun and for boss
 */
 function drawBadScore(){
   ctx.save(); //saves the present condition/state of the image/game
