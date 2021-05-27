@@ -69,7 +69,7 @@ function drawLad(){
 }
 
 /*offLad()
-checks to see if rect is off the ladder. If it is, enable gravity and collision checks
+checks to see if rect is off the ladder. If it is, enable gravity and collision checks and jumping noise
 Also, this function turns off the climbing animation and the still image of the hero climbing
 */
 function offLad(){
@@ -81,6 +81,7 @@ function offLad(){
         noGrav = false; //turns on gravity
         noCollision = false; //turns on collision checker
         stopClimb = false; //turns off the still picture of hero climbing (for animation effects)
+        controlJ = true; // turns on jumping noise because the hero is not climbing now
         //if the hero is touching the ground
         if (rect.yPos + rect.height >= plat.yPos+420+plat.height) {
           rect.yMove = 50; //allows the hero to jump again instead of being stuck to the ground
@@ -91,6 +92,7 @@ function offLad(){
         noGrav = false; //turns on gravity
         noCollision = false; //turns on collision
         stopClimb = false; //turns off the still picture of hero climbing (for animation effects)
+        controlJ = true; // turns on jumping noise because the hero is not climbing now
         //if the hero is touching the ground
         if (rect.yPos + rect.height >= plat.yPos+250+plat.height) {
           rect.yMove = 50; //allows the hero to jump again instead of being stuck to the ground
@@ -101,6 +103,7 @@ function offLad(){
         noGrav = false; //turns on gravity
         noCollision = false; //turns on collision
         stopClimb = false; //turns off the still picture of hero climbing (for animation effects)
+        controlJ = true; // turns on jumping noise because the hero is not climbing now
         //if the hero is touching the ground
         if (rect.yPos + rect.height >= plat.yPos-5+plat.height) {
           rect.yMove = 50; //allows the hero to jump again instead of being stuck to the ground

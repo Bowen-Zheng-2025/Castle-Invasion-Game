@@ -9,6 +9,7 @@ var heroSprite = new Image(); //sets an image for the hero
 var noS = false; //turns off the 'S' key, use this for the final boss level
 var imgStart = new Image(); //basically creates the image
 var gamer = 0; //helps the gameState tracker, but also meant for the x key to help player resume their game
+var musicCount = 0; //counter for playing the background music once when going
 imgStart.onload = function(){ //uploads the image onto the screen
   drawStart(); //uses a function from below
 }
@@ -85,6 +86,13 @@ function draw(){
   if (gameState == 1) {
     ctx.clearRect(0,0,c.width,c.height); //resets the canvas and redraws everything
     gamer = 1; //keeps track of the gameState; use later for x and smooth return to where you left off
+    if (musicCount == 1) { //starts the audio for level 1. Does it only once
+      play(); //calls the function that plays the normal music for level 1
+      play2(); //calls the funciton that doesn't play the boss music yet
+    }
+    if (musicCount < 10) { //stops the counting in preparation for the second audio for the boss level
+      musicCount ++; //increments to get music to play
+    }
     if (noGrav == false) { //checks if gravity should be used or not
       if (((rect.yPos + 1) + rect.width) <= c.height) { //makes sure that the rect doesn't 'sink' into the ground when it's rolling back and forth along the ground
         rect.yPos += grav; //calls gravity
@@ -171,6 +179,13 @@ function draw(){
   if (gameState == 2) { // Changes the level to final boss level
     ctx.clearRect(0,0,c.width,c.height); //resets the canvas and redraws everything
     gamer = 2; //keeps track of the gameState; use later for x and smooth return to where you left off
+    if ((musicCount == 11)) { //starts the audio for boss level. Does it only once
+      play(); //calls the function that doesn't play the music (upbeat) for level 1 anymore cause it's BOSS LEVEL
+      play2(); //calls the function that plays the boss level (scary) music anymore cause it's BOSS LEVEL
+    }
+    if (musicCount < 20) { //stops the counting just so the browser doesn't get overloaded from counting so much and slows downt he game
+      musicCount ++; //increments to get music to play
+    }
     if ((rect.xPos < 200) && (rightGo == true)) { //puts the hero on top of the platform (move to the right)
       rect.xPos = 120;
     }
@@ -203,7 +218,6 @@ function draw(){
     for (var i = 0; i < orbArr.length; i++) {
       if (orbArr[i].use == true) {
         orbPow(); //calls the function that draws and handle movement for the boss's power orb
-        console.log("how long");
       }
     }
     if (orbGo1 == true) { //calls the function to make an object that has the orb going to the right

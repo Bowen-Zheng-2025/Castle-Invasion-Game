@@ -163,5 +163,8 @@ function collideHeroBad(){
   //this if checks for collision between the left, right, and bottom side of the hero compared to the npc
   if ((npc.xPos+npc.width>rect.xPos)&&(npc.xPos+npc.width<rect.xPos+rect.width)&&(rect.yPos+rect.height>npc.yPos)&&(rect.yPos<plat.yPos+305)) {
     scoring += 0.4;
+    if (gameState == 1) { //refrains the collision sounds from occuring when game is over
+      soundColl.play(); //uses a cartoony collision sound here for fun
+    }
   }
 }

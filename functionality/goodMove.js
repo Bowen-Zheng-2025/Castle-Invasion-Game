@@ -15,7 +15,8 @@ var heroL = true; // boolean tracker for hero facing to the right
 var heroR = true; // boolean tracker for hero facing to the right
 var ind = 0; //this and jumper are meant to track and limit the number of jumps for the hero to two
 var jumper = true; //this and ind are meant to track and limit the number of jumps for the hero to two
-var rightGo = true;// moves the hero onto the platform when final level starts
+var rightGo = true; // moves the hero onto the platform when final level starts
+var controlJ = true; //controls whether the jumping noise should be made. This is false if the hero is within ladders
 
 /*collideHeroPlat()
 checks for collisions between the hero and the platforms
@@ -62,18 +63,28 @@ function collideHeroBar(){
     if ((rect.yPos<plat.yPos)&&(barArr[i].yPos<plat.yPos)&&(barArr[i].xPos+barArr[i].rad>rect.xPos)&&(rect.yPos+rect.height>barArr[i].yPos-barArr[i].rad)&&(barArr[i].xPos-barArr[i].rad<rect.xPos+rect.width)) {
       //this checks for collision between the barrel and rect only above first platform and only on the left side of the rect and right side of the barrel
       scoring += 0.2;
+      if (gameState == 1) { //refrains the collision sounds from occuring when game is over
+        soundColl.play(); //uses a cartoony collision sound here for fun
+      }
     }
     if ((rect.yPos>plat.height+plat.yPos)&&(barArr[i].yPos>plat.height+plat.yPos)&&(rect.yPos<plat.height+plat.yPos+155)&&(barArr[i].yPos<plat.height+plat.yPos+155)&&(barArr[i].xPos+barArr[i].rad>rect.xPos)&&(rect.yPos+rect.height>barArr[i].yPos-10)&&(barArr[i].xPos-barArr[i].rad<rect.xPos+rect.width)) {
       //this checks for collision between the barrel and rect only between the first and second platform and only on the side of the right rect and left side of the barrel
       scoring += 0.2;
+      soundColl.play(); //uses a cartoony collision sound here for fun
     }
     if ((rect.yPos<plat.yPos+305)&&(barArr[i].yPos<plat.yPos+305)&&(rect.yPos>plat.height+plat.yPos+155)&&(barArr[i].yPos>plat.height+plat.yPos+155)&&(barArr[i].xPos+barArr[i].rad>rect.xPos)&&(rect.yPos+rect.height>barArr[i].yPos-10)&&(rect.yPos+rect.height<barArr[i].yPos+barArr[i].rad)&&(barArr[i].xPos-barArr[i].rad<rect.xPos+rect.width)) {
       //this checks for collision between the barrel and rect only between the second and third platform and only on the left side of the rect and right side of the barrel
       scoring += 0.2;
+      if (gameState == 1) { //refrains the collision sounds from occuring when game is over
+        soundColl.play(); //uses a cartoony collision sound here for fun
+      }
     }
     if ((rect.yPos>plat.height+plat.yPos+305)&&(barArr[i].yPos>plat.height+plat.yPos+305)&&(barArr[i].xPos+barArr[i].rad>rect.xPos)&&(rect.yPos+rect.height>barArr[i].yPos-10)&&(rect.yPos+rect.height<barArr[i].yPos+barArr[i].rad)&&(barArr[i].xPos-barArr[i].rad<rect.xPos+rect.width)) {
       //this checks for collision between the barrel and rect only between the third and bottom/fourth platform and only on the right side of the rect and left side of the barrel
       scoring += 0.2;
+      if (gameState == 1) { //refrains the collision sounds from occuring when game is over
+        soundColl.play(); //uses a cartoony collision sound here for fun
+      }
     }
   }
 }
@@ -204,6 +215,9 @@ function makeMove(e) {
     if (noTrack == false) {
       trackX = rect.xPos;
     }
+    if (end == false) { //refrains the running sounds from occuring when game is over
+      soundRun.play(); //uses a cartoony running sound here for fun
+    }
   }
   if ((e.key == "a") && (rect.xPos > 0)) { //lets hero move to the left
     left = true; //enables hero moving left animation
@@ -217,9 +231,15 @@ function makeMove(e) {
     if (noTrack == false) {
       trackX = rect.xPos;
     }
+    if (end == false) { //refrains the running sounds from occuring when game is over
+      soundRun.play(); //uses a cartoony running sound here for fun
+    }
   }
   if ((e.key == "w") && (jumper == true)) { //lets the hero move up (basically jump)
     ind ++; // try to limit number of jumps for hero to 2
+    if ((gameState == 1) && (controlJ == true)) { //refrains the collision sounds from occuring when game is over
+      soundJump.play(); //uses a cartoony jump sound here for fun
+    }
     for (var i = 0; i < ladArr.length; i++){ //goes through the ladder array
       //this if checks if the hero is within the vicinity of ladder (which is between the third and fourth platform)
       if (rect.yPos>plat.yPos+305) {
@@ -228,6 +248,7 @@ function makeMove(e) {
           noGrav = true; //turns off gravity
           goClimb = true; //turns on the climbing animation
           stopClimb = true; //turns on the still image of hero
+          controlJ = false; // turns off jumping noise because the hero is climbing now
           if ((rect.yPos <= plat.yPos+305+plat.height)) { //checks to make sure that the hero moves past and lands on the third platform
             noGrav = false; //turns gravity back on
             goClimb = false; //turns on the climbing animation
@@ -244,6 +265,7 @@ function makeMove(e) {
           noGrav = true; //turns off gravity
           goClimb = true; //turns on the climbing animation
           stopClimb = true; //turns on the still image of hero
+          controlJ = false; // turns off jumping noise because the hero is climbing now
           if ((rect.yPos <= plat.yPos+155+plat.height)) { //checks to make sure that the hero moves past and lands on the third platform
             noGrav = false; //turns gravity back on
             goClimb = false; //turns on the climbing animation
@@ -260,6 +282,7 @@ function makeMove(e) {
           noGrav = true; //turns off gravity
           goClimb = true; //turns on the climbing animation
           stopClimb = true; //turns on the still image of hero
+          controlJ = false; // turns off jumping noise because the hero is climbing now
           if ((rect.yPos <= plat.yPos+plat.height)) { //checks to make sure that the hero moves past and lands on the third platform
             noGrav = false; //turns gravity back on
             goClimb = false; //turns on the climbing animation
@@ -309,6 +332,9 @@ function makeMove(e) {
     rect.yPos += rect.yMove; //makes the hero move down ladder
   } //end of the e.key == 's' if statement
   if ((e.key == " ")&&(powOff == false)){
+    if (end == false) { //refrains the collision sounds from occuring when game is over
+      soundShoot.play(); //uses a cartoony shooting sound here for fun
+    }
     for (var i = 0; i < powArr.length; i++) {
       powArr[i].use = true;
     }

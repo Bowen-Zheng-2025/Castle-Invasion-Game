@@ -43,16 +43,22 @@ function moreOrb (xPos, yPos, width, height, xMove, use){
 draws a power orb for visual effects and for fun
 */
 function orbPow(){
-  if ((boss.xPos == 1000) && (boss.xMove == -2)) {
+  if ((boss.xPos == 1000) && (boss.xMove == -2)) { //if boss is moving to the left and in position, fire the orb
     orbGo2 = true;
+    if (end == false) { //refrains the collision sounds from occuring when game is over
+      soundShoot.play(); //uses a cartoony shooting sound here for fun
+    }
   }
-  else if ((boss.xPos != 1000) || (boss.xMove != -2)){
+  else if ((boss.xPos != 1000) || (boss.xMove != -2)){ //if the first if isn't true, then turn off power orb firing ability
     orbGo2 = false;
   }
-  if ((boss.xPos == 110) && (boss.xMove == 2)) {
+  if ((boss.xPos == 110) && (boss.xMove == 2)) { //if boss is moving to the right and in position, fire the orb
     orbGo1 = true;
+    if (end == false) { //refrains the collision sounds from occuring when game is over
+      soundShoot.play(); //uses a cartoony shooting sound here for fun
+    }
   }
-  else if ((boss.xPos != 100) || (boss.xMove != 2)){
+  else if ((boss.xPos != 100) || (boss.xMove != 2)){ //if the second if isn't true, then stop orb firing ability
     orbGo1 = false;
   }
   for (var i = 0; i < orbArr.length; i++) {
@@ -62,10 +68,10 @@ function orbPow(){
     if (orbArr[i].xMove == -3) {
       imgOrb.src="functionality/bossPow1.png"; //source for where the image is coming from
     }
-    if (orbArr[i].xPos < 0) {
+    if (orbArr[i].xPos < 0) { //stops drawing the orb once it's off screen
       orbArr[i].use = false;
     }
-    if (orbArr[i].xPos > c.width) {
+    if (orbArr[i].xPos > c.width) { //stops drawing the orb once it's off screen
       orbArr[i].use = false;
     }
     ctx.save(); //saves the present condition/state of the image/game
@@ -86,6 +92,9 @@ function heroOrbCheck(){
     if ((orbArr[i].xPos<rect.xPos+20)&&(rect.xPos<orbArr[i].xPos)&&(orbArr[i].yPos<rect.yPos+rect.width)&&(rect.yPos<orbArr[i].yPos)) {
       orbArr[i].use = false;
       scoring ++; //adds to the score (about 5-10 points? depends if you are walking or running when attacked)
+      if (end == false) { //refrains the collision sounds from occuring when game is over
+        soundColl.play(); //uses a cartoony collision sound here for fun
+      }
     }
   }
 }
@@ -97,5 +106,8 @@ function collideHeroBoss(){
   //this if checks for collision between the left, right, and bottom side of the hero compared to the boss
   if ((boss.xPos+boss.width>rect.xPos)&&(boss.xPos+boss.width<rect.xPos+11)&&(rect.yPos+rect.height>boss.yPos)&&(rect.yPos<boss.yPos+305)) {
     scoring ++;  //adds to the score (about 5-10 points? depends on whether you are walking or running when attacked)
+    if (end == false) { //refrains the collision sounds from occuring when game is over
+      soundColl.play(); //uses a cartoony collision sound here for fun
+    }
   }
 }
