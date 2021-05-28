@@ -12,3 +12,10 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+#score {
+  font-size: 40px;
+  font-family: monospace;
+  color: white;
+
+}

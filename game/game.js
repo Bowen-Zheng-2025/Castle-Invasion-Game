@@ -47,7 +47,7 @@ function drawHelp() {
 function drawStart() {
  ctx.save(); //saves the present condition/state of the image/game
  ctx.beginPath(); //starts the drawing
- ctx.drawImage(imgStart, -10, -300, 1300, 1400); //parameters for drawing the bird
+ ctx.drawImage(imgStart, -10, -300, 1210, 1400); //parameters for drawing the bird
  ctx.fill(); //fills the image/drawing
  ctx.stroke(); //finishes the drawing
  ctx.restore(); //reuses the saved image
@@ -114,13 +114,21 @@ function draw(){
     if (keyInd >= 4) { // gives you access to the boss level (use top ladder to get to)
       pass = true;
     }
+    if (noColl == false) { //if there is no bubble protection, engage collisions (checkers)
+      collideHeroBad(); //calls the function that checks the collision between the npc and the hero
+      collideHeroBar(); //calls the function that checks for collisions between the hero and the barrel
+    }
+    if (noColl == true) { //if powerup is engaged, draw bubble so player knows its in effect
+      drawBubble(); //calls the function that draws the bubble for protection
+    }
+    noCollTime(); //calls the function that times how long the bubble should be in use
+    runTime(); //calls the function that times how long the speed run power should be in use
     drawScore(); //calls the function that draws the hero's heart and life
     scoreKeeperGood(); //calls the function that keeps track of health, life, and damage of the hero
     drawPlat(); //calls the function that draws the platform
     drawLad(); //calls the function that draws the ladder
     drawCan(); //calls the function that draws the cannon that will 'fire' barrels
     collideBar(); //calls the function that checks the collision between the barrels and the walls of the canvas
-    collideHeroBar(); //calls the function that checks for collisions between the hero and the barrel
     offLad(); //calls the function that checks if the hero is on the ladder or not. If not, enable gravity and colisions
     for (var i = 0; i < barArr.length; i++) { //goes through the barrel array
       if (barArr[i].yPos>470) { //after a specific time
@@ -142,7 +150,6 @@ function draw(){
     if (noCollision == false) {
       collideHeroPlat(); //calls the function that checks the collision between the hero and the platform
     }
-    collideHeroBad(); //calls the function that checks the collision between the npc and the hero
     enemyMove(); //calls the function that makes the npc move back and forth automatically
     jumpCheck(); //calls the function that checks whether the hero jumping animation should be used
     heroClimb(); //calls the function that checks wheteher the hero climbing animation is necessary (and turns off jumping if so)
@@ -226,12 +233,19 @@ function draw(){
     if (orbGo2 == true) { //calls the function to make an object that has the orb going to the left
       moreOrb(orb2.xPos, orb2.yPos, orb2.width, orb2.height, orb2.xMove, orb2.use);
     }
-    heroOrbCheck(); //calls the function that checks the collisions between the hero and the bad guy's orb
+    if (noColl == false) { //if there is no bubble protection, engage collisions (checkers)
+      collideHeroBoss(); //calls the function that checks the collision between the hero and the boss
+      heroOrbCheck(); //calls the function that checks the collisions between the hero and the bad guy's orb
+    }
+    if (noColl == true) { //if powerup is engaged, draw bubble so player knows its in effect
+      drawBubble(); //calls the function that draws the bubble for protection
+    }
+    noCollTime(); //calls the function that times how long the bubble should be in use
+    runTime(); //calls the function that times how long the speed run power should be in use
     bossMove(); //calls the function that makes the boss move left and right
     platCheck(rect); //calls the function that keeps the hero on the platform
     platBoss(); //calls the function that draws the platform for the boss level
     jumpCheck(); //calls the function that checks whether the jumping animation should be in use or not
-    collideHeroBoss(); //calls the function that checks the collision between the hero and the boss
     animateHero(); //calls the function that animates the default hero setting (just standing there blinking)
     animateHeroLeft(); //calls the function that animates the hero moving to the left
     animateHeroRight(); //calls the function that animates the hero moving to the right
@@ -270,6 +284,9 @@ function draw(){
   if (gameState == 3) {
     drawHelp(); //calls the function that draws the manual for the playing the game and the background
   }
+  if (gameState == 4) {
+    drawShop(); //calls the function that draws the item shop for players to buy upgrades
+  }
   requestAnimationFrame(draw); //basically replaces the job of setInterval
 }
 
@@ -300,6 +317,31 @@ function work(e) { //this function makes the ball bounce (or change direction in
   if (gamer == 2) { //if you clicked help while at boss level, you will return to it if you press x
     if (e.key == "h") {
       gameState = 3;
+    }
+    if (e.key == "x") {
+      gameState = 2;
+    }
+  }
+  //the ifs statements below are meant for item shops
+  if (gamer == 0) { //if you clicked for item shop while at start screen, you will return to it if you press x
+    if (e.key == "i") {
+      gameState = 4;
+    }
+    if (e.key == "x") {
+      gameState = 0;
+    }
+  }
+  if (gamer == 1) { //if you clicked for item shop while playing game (level 1), you will return to it if you press x
+    if (e.key == "i") {
+      gameState = 4;
+    }
+    if (e.key == "x") {
+      gameState = 1;
+    }
+  }
+  if (gamer == 2) { //if you clicked for item shop while at boss level, you will return to it if you press x
+    if (e.key == "i") {
+      gameState = 4;
     }
     if (e.key == "x") {
       gameState = 2;

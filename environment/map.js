@@ -7,6 +7,8 @@ var downer = false; // boolean tracker to use the key on the bottom platform
 var keyInd = 0; //index to keep track of when to stop using keys because the very top ladder is unlocked
 var pass = false; //boolean tracker that decides whether or not the hero can pass through the top ladder to get to the boss level
 var imgKey = new Image(); //basically creates the image
+var score = 0; //just a placeholder for imgKey to show the number of keys, not score
+var randKey = Math.floor(Math.random() * (800 - 100) + 100); //gives you a random number between 100 and 800 to randomly place your key
 imgKey.onload = function(){ //uploads the image onto the screen
   drawKey(); //uses a function from below
 }
@@ -18,7 +20,7 @@ this draws a blue rectangle that's suppose to represent a key (for now) that the
 */
 function drawKey(key){
   ctx.beginPath();
-  ctx.drawImage(imgKey, key.xPos, key.yPos, key.width, key.height);
+  ctx.drawImage(imgKey, randKey, key.yPos, key.width, key.height);
   ctx.fillStyle = "blue";
   ctx.fill();
 }
@@ -30,16 +32,20 @@ this checks if the hero has touched the key or not, if so, switch the keys from 
 */
 function keyCheck(key1, key2){
   //this switches the key to the bottom when the top one is retrieved
-  if ((topper == true)&&(rect.xPos+rect.width>key1.xPos)&&(rect.xPos<key1.xPos)&&(rect.yPos+rect.height>key1.yPos)&&(rect.yPos<key1.yPos)) {
+  if ((topper == true)&&(rect.xPos+rect.width>randKey)&&(rect.xPos<randKey)&&(rect.yPos+rect.height>key1.yPos)&&(rect.yPos<key1.yPos)) {
     topper = false;
     downer = true;
     keyInd ++;
+    console.log(keyInd); //log the keyInd so it is visible and we can keep track of it
+    document.getElementById('score').innerHTML = "Keys: " + keyInd; //shows the number of keys you collected on the screen
   }
   //this switches the key to the top when the bottom one is retrieved
-  if ((downer == true)&&(rect.xPos+rect.width>key2.xPos)&&(rect.xPos<key2.xPos)&&(rect.yPos+rect.height>key2.yPos)&&(rect.yPos<key2.yPos)) {
+  if ((downer == true)&&(rect.xPos+rect.width>randKey)&&(rect.xPos<randKey)&&(rect.yPos+rect.height>key2.yPos)&&(rect.yPos<key2.yPos)) {
     topper = true;
     downer = false;
     keyInd ++;
+    console.log(keyInd); //log the keyInd so it is visible and we can keep track of it
+    document.getElementById('score').innerHTML = "Keys: " + keyInd; //shows the number of keys you collected on the screen
   }
 }
 
